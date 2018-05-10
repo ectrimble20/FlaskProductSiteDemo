@@ -46,7 +46,7 @@ def register():
             password=hashed_password
         )
         app_db.session.add(user)
-        app_db.commit()
+        app_db.session.commit()
         flash('Thank you for registering, please sign-in to continue!')
         return redirect('users.login')
     return render_template('user/register.html', title="Account Registration", form=form)
