@@ -20,7 +20,7 @@ def login():
             return redirect(next_page) if next_page else redirect(url_for('main.home'))
         else:
             flash('Login Failed!', 'danger')
-    return render_template('login.html', title='Login', form=form)
+    return render_template('user/login.html', title='Login', form=form)
 
 
 @users.route("/user/logout", methods=["GET", "POST"])
