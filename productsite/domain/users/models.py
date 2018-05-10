@@ -1,5 +1,6 @@
 from datetime import datetime
-from productsite import app_db, app_login_manager
+from productsite import app_login_manager
+from productsite.database import app_db
 from flask_login import UserMixin
 #  from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
 #  from flask import current_app

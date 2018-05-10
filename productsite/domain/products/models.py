@@ -1,5 +1,5 @@
 from datetime import datetime
-from productsite import app_db
+from productsite.database import app_db
 #  from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
 #  from flask import current_app
 

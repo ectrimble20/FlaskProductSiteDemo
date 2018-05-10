@@ -1,13 +1,12 @@
 from flask import Flask
 from productsite.config import Config
-from flask_sqlalchemy import SQLAlchemy
+from productsite.database import app_db
 from flask_bcrypt import Bcrypt
 from flask_login import LoginManager
 from flask_mail import Mail
 
 
 # initialize some of our support classes
-app_db = SQLAlchemy()
 app_crypt = Bcrypt()
 app_login_manager = LoginManager()
 app_mailer = Mail()
