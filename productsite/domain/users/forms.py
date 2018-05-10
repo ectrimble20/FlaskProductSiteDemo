@@ -14,16 +14,39 @@ class LoginForm(FlaskForm):
 
 
 class RegisterUserForm(FlaskForm):
-    pass
+    email = StringField('Email', validators=[DataRequired(), Email()])
+    first_name = StringField('Password', validators=[DataRequired(), Length(min=2, max=35)])
+    last_name = StringField('Password', validators=[DataRequired(), Length(min=2, max=35)])
+    password = PasswordField('Password', validators=[DataRequired(), Length(min=8, max=20)])
+    password_confirm = PasswordField('Password', validators=[DataRequired(), EqualTo('password')])
+    submit = SubmitField('Register')
+
+    def validate_email(self, email):
+        user = User.query.filter_by(email=email.data).first()
+        if user:
+            raise ValidationError("That email address is already in use, please use a different email address.")
 
 
 class CloseAccountForm(FlaskForm):
-    pass
+    confirm = StringField('Confirm Delete', validators=[DataRequired(), Length(min=6, max=6)])
+    submit = SubmitField('Confirm')
 
 
 class EditAccountForm(FlaskForm):
-    pass
+    email = StringField('Email', validators=[DataRequired(), Email()])
+    first_name = StringField('Password', validators=[DataRequired()])
+    last_name = StringField('Password', validators=[DataRequired()])
+    submit = SubmitField('Update')
+
+    def validate_email(self, email):
+        # only check validation if the email address changed
+        if email.data != current_user.email:
+            user = User.query.filter_by(email=email.data).first()
+            if user:
+                raise ValidationError("That email address is already in use, please use a different email address.")
 
 
 class PasswordResetForm(FlaskForm):
-    pass
+    password = PasswordField('Password', validators=[DataRequired()])
+    password_confirm = PasswordField('Password', validators=[DataRequired(), EqualTo('password')])
+    submit = SubmitField('Reset Password')
