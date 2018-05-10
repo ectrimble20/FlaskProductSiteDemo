@@ -1,37 +1,29 @@
 from flask import Blueprint
 from flask_login import login_required, current_user, login_user, logout_user
 
-users = Blueprint('users', __name__)
+products = Blueprint('products', __name__)
 
 
-@users.route("/user/login", methods=["GET", "POST"])
-def login():
+# view product, edit product, product images, product
+
+@products.route("/product/<int:product_id>", methods=["GET"])
+def show_product(product_id):
     pass
 
 
-@users.route("/user/logout", methods=["GET", "POST"])
+@products.route("/product/<int:product_id>/edit", methods=["GET", "POST"])
 @login_required
-def logout():
+def admin_product(product_id):
     pass
 
 
-@users.route("/user/register", methods=["GET", "POST"])
-def register():
-    pass
-
-
-@users.route("/user/close", methods=["GET", "POST"])
+@products.route("/product/<int:product_id>/remove", methods=["POST"])
 @login_required
-def close_account():
+def admin_remove_product(product_id):
     pass
 
 
-@users.route("/user/account", methods=["GET", "POST"])
+@products.route("/product/new", methods=["GET", "POST"])
 @login_required
-def view_account():
-    pass
-
-
-@users.route("/user/password_reset", methods=["GET", "POST"])
-def reset_password():
+def admin_create_new_product():
     pass

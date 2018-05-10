@@ -22,6 +22,8 @@ def create_flask_app(config_class=Config):
     app_mailer.init_app(app)
     # we'll need to load in our routes in here
     from productsite.domain.index.routes import index
+    from productsite.domain.users.routes import users
     # and register our blueprints
     app.register_blueprint(index)
+    app.register_blueprint(users)
     return app

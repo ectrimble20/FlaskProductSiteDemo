@@ -1,29 +1,52 @@
-from flask import Blueprint
+from flask import Blueprint, render_template, url_for, flash, redirect, request
 from flask_login import login_required, current_user, login_user, logout_user
+from productsite import app_crypt
+from productsite.domain.users.models import User
+from productsite.domain.users.forms import LoginForm
 
-products = Blueprint('products', __name__)
+users = Blueprint('users', __name__)
 
 
-# view product, edit product, product images, product
+@users.route("/user/login", methods=["GET", "POST"])
+def login():
+    if current_user.is_authenticated:
+        return redirect(url_for('index.index_page'))
+    form = LoginForm()
+    if form.validate_on_submit():
+        user = User.query.filter_by(email=form.email.data).first()
+        if user and app_crypt.check_password_hash(user.password, form.password.data):
+            login_user(user, remember=form.remember.data)
+            next_page = request.args.get('next')
+            return redirect(next_page) if next_page else redirect(url_for('main.home'))
+        else:
+            flash('Login Failed!', 'danger')
+    return render_template('login.html', title='Login', form=form)
 
-@products.route("/product/<int:product_id>", methods=["GET"])
-def show_product(product_id):
+
+@users.route("/user/logout", methods=["GET", "POST"])
+@login_required
+def logout():
+    logout_user()
+    return redirect(url_for('index.index_page'))
+
+
+@users.route("/user/register", methods=["GET", "POST"])
+def register():
     pass
 
 
-@products.route("/product/<int:product_id>/edit", methods=["GET", "POST"])
+@users.route("/user/close", methods=["GET", "POST"])
 @login_required
-def admin_product(product_id):
+def close_account():
     pass
 
 
-@products.route("/product/<int:product_id>/remove", methods=["POST"])
+@users.route("/user/account", methods=["GET", "POST"])
 @login_required
-def admin_remove_product(product_id):
+def view_account():
     pass
 
 
-@products.route("/product/new", methods=["GET", "POST"])
-@login_required
-def admin_create_new_product():
+@users.route("/user/password_reset", methods=["GET", "POST"])
+def reset_password():
     pass
