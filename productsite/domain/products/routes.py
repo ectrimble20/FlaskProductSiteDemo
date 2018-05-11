@@ -66,9 +66,9 @@ def product_admin_remove(product_id):
 @login_required
 def product_admin_create():
     current_app.logger.debug("Entered product_admin_create")
+    form = ProductAdminAddProduct()
     if request.method == 'POST':
         current_app.logger.debug("Method detected as POST")
-        form = ProductAdminAddProduct()
         if form.validate_on_submit():
             current_app.logger.debug("success on validating form")
             p = Product(
