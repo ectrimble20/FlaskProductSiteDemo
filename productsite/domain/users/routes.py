@@ -77,7 +77,7 @@ def view_account():
         current_user.email = form.email.data
         current_user.first_name = form.first_name.data
         current_user.last_name = form.last_name.data
-        app_db.commit()
+        app_db.session.commit()
         flash("Account Information Updated", "success")
         return redirect(url_for('users.view_account'))
     else:
