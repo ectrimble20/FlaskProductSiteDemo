@@ -19,7 +19,7 @@ class Ticket(app_db.Model):
     create_date = app_db.Column(app_db.DateTime, nullable=False, default=datetime.utcnow)
     last_status_date = app_db.Column(app_db.DateTime, nullable=False, default=datetime.utcnow)
     close_date = app_db.Column(app_db.DateTime, nullable=True)
-    messages = app_db.relationship('TicketMessage', backref='ticket', lazy=True)
+    messages = app_db.relationship('TicketMessage', backref=app_db.backref('ticket', lazy=True))
 
 
 class TicketMessage(app_db.Model):
