@@ -45,7 +45,19 @@
                             {{ form.quantity(class="form-control form-control-lg") }}
                         {% endif %}
                     </div>
-
+                    <div class="form-group">
+                        {{ form.expect_stock_quantity.label(class="form-control-label") }}
+                        {% if form.expect_stock_quantity.errors %}
+                            {{ form.expect_stock_quantity(class="form-control form-control-lg is-invalid") }}
+                            <div class="invalid-feedback">
+                                {% for error in form.expect_stock_quantity.errors %}
+                                    <span>{{ error }}</span>
+                                {% endfor %}
+                            </div>
+                        {% else %}
+                            {{ form.expect_stock_quantity(class="form-control form-control-lg") }}
+                        {% endif %}
+                    </div>
                     <div class="form-group">
                         {{ form.price.label(class="form-control-label") }}
                         {% if form.price.errors %}
