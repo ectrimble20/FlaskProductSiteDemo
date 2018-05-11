@@ -3,7 +3,8 @@ from flask_login import login_required, current_user, login_user, logout_user
 from productsite import app_crypt
 from productsite.database import app_db
 from productsite.domain.users.models import User
-from productsite.domain.users.forms import LoginForm, RegisterUserForm, CloseAccountForm, PasswordResetForm
+from productsite.domain.users.forms import (LoginForm, RegisterUserForm, CloseAccountForm,
+                                            PasswordResetForm, EditAccountForm)
 
 users = Blueprint('users', __name__)
 
@@ -71,7 +72,19 @@ def close_account():
 @users.route("/user/account", methods=["GET", "POST"])
 @login_required
 def view_account():
-    pass
+    form = EditAccountForm()
+    if form.validate_on_submit():
+        current_user.email = form.email.data
+        current_user.first_name = form.first_name.data
+        current_user.last_name = form.last_name.data
+        app_db.commit()
+        flash("Account Information Updated", "success")
+        return redirect(url_for('users.view_account'))
+    else:
+        form.email.data = current_user.email
+        form.first_name.data = current_user.first_name
+        form.last_name.data = current_user.last_name
+        return render_template('user/edit_account.html', title="Account Information", form=form)
 
 
 @users.route("/user/password_reset", methods=["GET", "POST"])
