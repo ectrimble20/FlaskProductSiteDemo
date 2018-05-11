@@ -91,4 +91,4 @@ def product_admin_create():
             if form.errors:
                 current_app.logger.debug(form.errors)
     current_app.logger.debug("No validation on submit, rendering template")
-    return render_template('product/create.html', title="Administration - Create Product")
+    return render_template('product/create.html', title="Administration - Create Product", form=form)
