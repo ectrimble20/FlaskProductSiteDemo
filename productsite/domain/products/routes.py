@@ -2,7 +2,7 @@ from flask import Blueprint, render_template, url_for, flash, redirect, request
 from flask_login import login_required, current_user, login_user, logout_user
 from productsite import app_crypt
 from productsite.database import app_db
-from productsite.domain.products.forms import ProductAdminAddProduct
+from productsite.domain.products.forms import ProductAdminAddProduct, ProductAdminUpdateProduct
 from productsite.domain.products.models import Product
 
 products = Blueprint('products', __name__)
@@ -29,7 +29,7 @@ def add_product_to_cart(product_id):
 @products.route("/admin/product/<int:product_id>/edit", methods=["GET", "POST"])
 @login_required
 def product_admin_edit(product_id):
-    form = ProductAdminAddProduct()
+    form = ProductAdminUpdateProduct()
     if form.validate_on_submit():
         p = Product(
             title=form.title.data,
@@ -78,6 +78,8 @@ def product_admin_create():
         )
         app_db.session.add(p)
         app_db.session.commit()
+        new_product = Product.query.filter_by(title=form.title.data).first()
         flash("Product Created", "success")
-        return redirect(url_for('products.product_admin_edit', product_id=p.id))
-    return render_template('product/create.html', title="Administration - Create Product", form=form)
+        return redirect(url_for('products.product_admin_edit', product_id=new_product.id))
+    else:
+        return render_template('product/create.html', title="Administration - Create Product", form=form)
