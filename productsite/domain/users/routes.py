@@ -3,7 +3,7 @@ from flask_login import login_required, current_user, login_user, logout_user
 from productsite import app_crypt
 from productsite.database import app_db
 from productsite.domain.users.models import User
-from productsite.domain.users.forms import LoginForm, RegisterUserForm, CloseAccountForm
+from productsite.domain.users.forms import LoginForm, RegisterUserForm, CloseAccountForm, PasswordResetForm
 
 users = Blueprint('users', __name__)
 
@@ -76,4 +76,12 @@ def view_account():
 
 @users.route("/user/password_reset", methods=["GET", "POST"])
 def reset_password():
-    pass
+    form = PasswordResetForm()
+    if form.validate_on_submit():
+        hashed_password = app_crypt.generate_password_hash(form.password.data).decode('utf-8')
+        current_user.password = hashed_password
+        app_db.session.commit()
+        flash("Password has been updated, please login to verify", "info")
+        logout_user()
+        return redirect(url_for('user.login'))
+    return render_template('user/reset_password.html', title="Reset Password", form=form)

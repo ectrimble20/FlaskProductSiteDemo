@@ -48,5 +48,5 @@ class EditAccountForm(FlaskForm):
 
 class PasswordResetForm(FlaskForm):
     password = PasswordField('Password', validators=[DataRequired()])
-    password_confirm = PasswordField('Password', validators=[DataRequired(), EqualTo('password')])
+    password_confirm = PasswordField('Confirm Password', validators=[DataRequired(), EqualTo('password')])
     submit = SubmitField('Reset Password')
