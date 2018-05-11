@@ -14,14 +14,13 @@ app_mailer = Mail()
 
 
 def create_flask_app(config_class=Config):
+    logging.basicConfig(filename="app.log", level=logging.DEBUG)
     app = Flask(__name__)
     app.config.from_object(config_class)
     app_db.init_app(app)
     app_crypt.init_app(app)
     app_login_manager.init_app(app)
     app_mailer.init_app(app)
-    # configure logging
-    app.logger.basicConfig(filename="app.log", level=logging.DEBUG)
     # we'll need to load in our routes in here
     from productsite.domain.index.routes import index
     from productsite.domain.users.routes import users
