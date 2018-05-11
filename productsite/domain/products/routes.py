@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, url_for, flash, redirect, request
+from flask import Blueprint, render_template, url_for, flash, redirect, request, current_app
 from flask_login import login_required, current_user, login_user, logout_user
 from productsite import app_crypt
 from productsite.database import app_db
@@ -65,8 +65,10 @@ def product_admin_remove(product_id):
 @products.route("/admin/product/new", methods=["GET", "POST"])
 @login_required
 def product_admin_create():
+    current_app.logger.debug("Entered product_admin_create")
     form = ProductAdminAddProduct()
     if form.validate_on_submit():
+        current_app.logger.debug("success on validating form")
         p = Product(
             title=form.title.data,
             description=form.description.data,
@@ -78,8 +80,10 @@ def product_admin_create():
         )
         app_db.session.add(p)
         app_db.session.commit()
+        current_app.logger.debug("new product entry inserted into DB successfully")
         new_product = Product.query.filter_by(title=form.title.data).first()
         flash("Product Created", "success")
         return redirect(url_for('products.product_admin_edit', product_id=new_product.id))
     else:
+        current_app.logger.debug("No validation on submit, rendering template")
         return render_template('product/create.html', title="Administration - Create Product", form=form)

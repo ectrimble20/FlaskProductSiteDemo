@@ -4,6 +4,7 @@ from productsite.database import app_db
 from flask_bcrypt import Bcrypt
 from flask_login import LoginManager
 from flask_mail import Mail
+import logging
 
 
 # initialize some of our support classes
@@ -19,6 +20,8 @@ def create_flask_app(config_class=Config):
     app_crypt.init_app(app)
     app_login_manager.init_app(app)
     app_mailer.init_app(app)
+    # configure logging
+    app.logger.basicConfig(filename="app.log", level=logging.DEBUG)
     # we'll need to load in our routes in here
     from productsite.domain.index.routes import index
     from productsite.domain.users.routes import users

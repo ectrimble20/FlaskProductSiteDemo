@@ -11,7 +11,7 @@ class ProductAdminAddProduct(FlaskForm):
     price = DecimalField('Price', validators=[DataRequired()])
     expect_stock_quantity = IntegerField('Expected Stock Quantity', validators=[DataRequired()])
     flag_out_of_stock = BooleanField('Out Of Stock')
-    expect_restock_date = DateField('Expected Restock Date')
+    expect_restock_date = DateField('Expected Restock Date', format="%Y-%m-%d")
     submit = SubmitField('Create New Product')
 
 
