@@ -5,9 +5,9 @@ from productsite.database import app_db
 order_part = app_db.Table('order_part',
                           app_db.Column('product_id', app_db.Integer, app_db.ForeignKey('product.id'),
                                         primary_key=True),
-                          app_db.Column('order_id', app_db.Integer, app_db.ForeignKey('customerorder.id'),
+                          app_db.Column('order_id', app_db.Integer, app_db.ForeignKey('customer_order.id'),
                                         primary_key=True),
-                          app_db.Column('product_id', app_db.Integer, nullable=False, default=1)
+                          app_db.Column('quantity', app_db.Integer, nullable=False, default=1)
                           )
 
 
