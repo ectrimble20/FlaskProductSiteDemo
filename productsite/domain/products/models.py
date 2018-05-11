@@ -3,13 +3,11 @@ from productsite.database import app_db
 #  from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
 #  from flask import current_app
 
-"""
 cart = app_db.Table('cart',
                     app_db.Column('product_id', app_db.Integer, app_db.ForeignKey('product.id'), primary_key=True),
                     app_db.Column('user_id', app_db.Integer, app_db.ForeignKey('user.id'), primary_key=True),
                     app_db.Column('quantity', app_db.Integer, nullable=False, default=1)
                     )
-"""
 
 
 class Product(app_db.Model):

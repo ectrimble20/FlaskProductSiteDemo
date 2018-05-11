@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, url_for, flash, redirect, request
+from flask import Blueprint, render_template, url_for, flash, redirect, request, current_app
 from flask_login import login_required, current_user, login_user, logout_user
 from productsite import app_crypt
 from productsite.database import app_db
@@ -11,6 +11,7 @@ users = Blueprint('users', __name__)
 
 @users.route("/user/login", methods=["GET", "POST"])
 def login():
+    current_app.logger.debug("{} called".format(__name__))
     if current_user.is_authenticated:
         return redirect(url_for('index.index_page'))
     form = LoginForm()
@@ -28,6 +29,7 @@ def login():
 @users.route("/user/logout", methods=["GET", "POST"])
 @login_required
 def logout():
+    current_app.logger.debug("{} called".format(__name__))
     logout_user()
     flash('Logged out successfully', 'info')
     return redirect(url_for('index.index_page'))
@@ -35,6 +37,7 @@ def logout():
 
 @users.route("/user/register", methods=["GET", "POST"])
 def register():
+    current_app.logger.debug("{} called".format(__name__))
     if current_user.is_authenticated:
         return redirect(url_for('index.index_page'))
     form = RegisterUserForm()
@@ -56,6 +59,7 @@ def register():
 @users.route("/user/close", methods=["GET", "POST"])
 @login_required
 def close_account():
+    current_app.logger.debug("{} called".format(__name__))
     form = CloseAccountForm()
     if form.validate_on_submit():
         check_string = form.confirm.data.upper()
@@ -73,6 +77,7 @@ def close_account():
 @users.route("/user/account", methods=["GET", "POST"])
 @login_required
 def view_account():
+    current_app.logger.debug("{} called".format(__name__))
     form = EditAccountForm()
     if form.validate_on_submit():
         current_user.email = form.email.data
@@ -92,6 +97,7 @@ def view_account():
 @users.route("/user/reset_password", methods=["GET", "POST"])
 @users.route("/user/edit/password", methods=["GET", "POST"])
 def reset_password():
+    current_app.logger.debug("{} called".format(__name__))
     form = PasswordResetForm()
     if form.validate_on_submit():
         hashed_password = app_crypt.generate_password_hash(form.password.data).decode('utf-8')
