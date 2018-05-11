@@ -22,7 +22,9 @@ def create_flask_app(config_class=Config):
     # we'll need to load in our routes in here
     from productsite.domain.index.routes import index
     from productsite.domain.users.routes import users
+    from productsite.domain.products.routes import products
     # and register our blueprints
     app.register_blueprint(index)
     app.register_blueprint(users)
+    app.register_blueprint(products)
     return app
