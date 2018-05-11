@@ -22,7 +22,7 @@ def list_product():
 def show_product(product_id):
     current_app.logger.debug("{} called".format(__name__))
     pd = Product.query.get(product_id)
-    return render_template('product/list.html', products=[pd], single=True)
+    return render_template('product/view.html', product=pd)
 
 
 @products.route("/product/search/<string:search_by>", methods=["GET", "POST"])

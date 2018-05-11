@@ -1,4 +1,12 @@
 {% extends "layout.html" %}
 {% block content %}
-    <h1>Not Implemented</h1>
+    <article class="media content-section">
+      <div class="media-body">
+        <div class="article-metadata">
+          <a class="mr-2" href="{{ url_for('products.show_product', product_id=product.id) }}">{{ product.title }}</a>
+        </div>
+        <p class="article-content">{{ product.description }}</p>
+        <p>${{ '{:,.2f}'.format(product.price) }} - Stock: {{ product.quantity }}</p>
+      </div>
+    </article>
 {% endblock content %}
