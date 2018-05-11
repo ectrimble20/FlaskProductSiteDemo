@@ -26,7 +26,7 @@ class Product(app_db.Model):
     flag_out_of_stock = app_db.Column(app_db.Boolean, nullable=False, default=False)
     expect_restock_date = app_db.Column(app_db.DateTime, nullable=True)
     category_id = app_db.Column(app_db.Integer, app_db.ForeignKey('product_category.id'), nullable=False)
-    category = app_db.relationship('Category', backref=app_db.backref('product', lazy=True))
+    category = app_db.relationship('ProductCategory', backref=app_db.backref('product', lazy=True))
 
     def __repr__(self):
         return "<Product('{}', '{}', '{}')>".format(self.id, self.title, self.quantity)
