@@ -1,0 +1,67 @@
+General Notes so I can remember what I'm doing.
+
+
+I've created a new branch for two reasons.
+
+1) I shouldn't be working directly in the master, and I'm hitting a point in complexity where I need
+to start breaking out the code into a new branch so if/when I break it, I have fall-back points that
+are not tied to the Master branch.
+
+2) I'm going to make some major changes to the structure and work on getting some complex data structures
+in place using Flask's SQLAlchemy library.
+
+So whats the plan?
+
+Since this is suppose to mimic some kind of web store, we're going to work on structuring our data like so:
+
+Planned Data Models:
+
+User - basic user account
+UserType - account types, customer, admin, customer_service, etc
+UserAccessControl - used for admin access control
+Product - a product
+ProductCategory - organizational categories for products
+Order - a completed order by the customer, tracking stuff on it
+Cart - what the customer has selected to buy
+Ratings - custer ratings, super simple table, rating from 1-5 or something like that
+Reviews - customer reviews
+Ticket - Customer service ticketing system
+TicketMessage - messages related to a specific ticket
+Images - represents an image in our static/images directory
+
+
+Planned Data Routes:
+
+/user/login                         - login
+/user/logout                        - logout
+/user/account                       - view/edit account information
+/user/register                      - register a new account
+/user/close                         - delete an account
+/user/reset_password                - form to let a user reset their password
+/product                            - list products
+/product?page=X                     - product listing page #
+/product?c=X                        - product listing specific category (can be used with page)
+/product/[product_id]               - list specific product
+/cart                               - view the cart
+/checkout                           - this will need multiple steps, I'll need to research best practic with this
+/product/[id]/review                - view reviews
+/product/[id]/rating                - view ratings, actual ratings, not just a summary rating
+/product/[id]/customer/review       - write a product review
+/product/[id]/customer/rate         - set a rating for a product
+/cs                                 - submit a customer service ticket
+/cs/[id]                            - view a tickets status, have means to add message built in
+### Administrative functionality, all these need UAC wrapping ###
+/admin/user                         - view all users, only admin/CS, option for all
+/admin/user/new                     - create a new user, defaults to admin/CS users only
+/admin/user/[id]/ban                - place a ban on a specific user
+/admin/user/[id]/uac                - set Access control rules for a user, only admin/CS
+/admin/product                      - admin view of products
+/admin/product/new                  - add a new product
+/admin/product/[id]                 - update/view specific product
+/admin/product/[id]/review          - edit/remove/approve reviews
+/admin/product/[id]/rating          - view rating, can completely reset, but not modify ratings
+/admin/cs/ticket                    - view Customer service tickets
+/admin/cs/ticket/[id]               - work a specific ticket
+/admin/cs/order                     - view orders
+/admin/cs/order/[id]                - view/work a specific order
+
