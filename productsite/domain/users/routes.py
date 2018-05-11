@@ -66,7 +66,7 @@ def close_account():
             flash("Your account has been deleted", 'info')
             return redirect(url_for('index.index_page'))
         else:
-            flash("Confirm delete failed")
+            flash("Confirm delete failed", "danger")
     return render_template('user/close_account.html', title="Account Deletion", form=form)
 
 
