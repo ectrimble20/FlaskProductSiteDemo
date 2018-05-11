@@ -26,3 +26,4 @@ class TicketMessage(app_db.Model):
     id = app_db.Column(app_db.Integer, primary_key=True)
     message = app_db.Column(app_db.Text, nullable=False)
     user_id = app_db.Column(app_db.Integer, app_db.ForeignKey('user.id'), nullable=False)
+    ticket_id = app_db.Column(app_db.Integer, app_db.ForeignKey('ticket.id'), nullable=True)
