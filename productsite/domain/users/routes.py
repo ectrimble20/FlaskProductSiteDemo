@@ -58,14 +58,15 @@ def register():
 def close_account():
     form = CloseAccountForm()
     if form.validate_on_submit():
-        check_string = form.confirm.data
-        check_string.upper()
+        check_string = form.confirm.data.upper()
         if check_string == 'DELETE':
             app_db.session.delete(current_user)
             app_db.session.commit()
             logout_user()
             flash("Your account has been deleted", 'info')
             return redirect(url_for('index.index_page'))
+        else:
+            flash("Confirm delete failed")
     return render_template('user/close_account.html', title="Account Deletion", form=form)
 
 
@@ -98,5 +99,5 @@ def reset_password():
         app_db.session.commit()
         flash("Your password has been updated, please login to verify", "info")
         logout_user()
-        return redirect(url_for('user.login'))
+        return redirect(url_for('users.login'))
     return render_template('user/reset_password.html', title="Reset Password", form=form)
