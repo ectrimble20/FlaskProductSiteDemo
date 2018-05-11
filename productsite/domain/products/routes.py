@@ -66,24 +66,29 @@ def product_admin_remove(product_id):
 @login_required
 def product_admin_create():
     current_app.logger.debug("Entered product_admin_create")
-    form = ProductAdminAddProduct()
-    if form.validate_on_submit():
-        current_app.logger.debug("success on validating form")
-        p = Product(
-            title=form.title.data,
-            description=form.description.data,
-            quantity=form.quantity.data,
-            price=form.price.data,
-            expect_stock_quantity=form.expect_stock_quantity.data,
-            flag_out_of_stock=form.flag_out_of_stock.data,
-            expect_restock_date=form.expect_restock_date.data
-        )
-        app_db.session.add(p)
-        app_db.session.commit()
-        current_app.logger.debug("new product entry inserted into DB successfully")
-        new_product = Product.query.filter_by(title=form.title.data).first()
-        flash("Product Created", "success")
-        return redirect(url_for('products.product_admin_edit', product_id=new_product.id))
-    else:
-        current_app.logger.debug("No validation on submit, rendering template")
-        return render_template('product/create.html', title="Administration - Create Product", form=form)
+    if request.method == 'POST':
+        current_app.logger.debug("Method detected as POST")
+        form = ProductAdminAddProduct()
+        if form.validate_on_submit():
+            current_app.logger.debug("success on validating form")
+            p = Product(
+                title=form.title.data,
+                description=form.description.data,
+                quantity=form.quantity.data,
+                price=form.price.data,
+                expect_stock_quantity=form.expect_stock_quantity.data,
+                flag_out_of_stock=form.flag_out_of_stock.data,
+                expect_restock_date=form.expect_restock_date.data
+            )
+            app_db.session.add(p)
+            app_db.session.commit()
+            current_app.logger.debug("new product entry inserted into DB successfully")
+            new_product = Product.query.filter_by(title=form.title.data).first()
+            flash("Product Created", "success")
+            return redirect(url_for('products.product_admin_edit', product_id=new_product.id))
+        else:
+            current_app.logger.debug("Validation failed, falling through")
+            if form.errors:
+                current_app.logger.debug(form.errors)
+    current_app.logger.debug("No validation on submit, rendering template")
+    return render_template('product/create.html', title="Administration - Create Product")
