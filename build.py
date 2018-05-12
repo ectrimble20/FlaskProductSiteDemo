@@ -21,19 +21,7 @@ if __name__ == '__main__':
         from productsite.domain.tickets.models import Ticket, TicketMessage
         from productsite.domain.orders.models import CustomerOrder, order_part
         app_db.create_all()
-        # generate placeholders
-        t1 = UserType(
-            type="Customer"
-        )
-        t2 = UserType(
-            type="Admin"
-        )
-        t3 = UserType(
-            type="CS Rep"
-        )
-        app_db.session.add(t1)
-        app_db.session.add(t2)
-        app_db.session.add(t3)
+        # generate predefined stuff
         pc1 = ProductCategory(
             description="Coding"
         )
