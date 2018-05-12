@@ -5,11 +5,12 @@
             {{ form.hidden_tag() }}
             <fieldset class="form-group">
                 <legend class="border-bottom mb-4">Admin - Edit User</legend>
-                <ul class="list-group">
                 {% for opt in form.uac_options %}
-                    {{ opt() }}
+                    <div class="form-check">
+                        {{ opt(class="form-check-input") }}
+                        {{ opt.label(class="form-check-label") }}
+                    </div>
                 {% endfor %}
-                </ul>
             </fieldset>
             <div class="form-group">
                 {{ form.submit(class="btn btn-outline-info") }}
