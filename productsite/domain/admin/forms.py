@@ -5,6 +5,11 @@ from wtforms.validators import DataRequired, Length, Email, EqualTo, ValidationE
 from productsite.domain.users.models import User
 
 
+class MultiCheckboxField(SelectMultipleField):
+    widget = widgets.ListWidget(prefix_label=False)
+    option_widget = widgets.CheckboxInput()
+
+
 class AdminCreateUserForm(FlaskForm):
     email = StringField('Email', validators=[DataRequired(), Email()])
     first_name = StringField('First Name', validators=[DataRequired(), Length(min=2, max=35)])
@@ -66,8 +71,3 @@ class AdminEditProductForm(FlaskForm):
     expect_restock_date = DateField('Expected Restock Date', format="%Y-%m-%d")
     categories = SelectField("Category", coerce=int, validators=[DataRequired()])
     submit = SubmitField('Update Product')
-
-
-class MultiCheckboxField(SelectMultipleField):
-    widget = widgets.ListWidget(prefix_label=False)
-    option_widget = widgets.CheckboxInput()
