@@ -100,7 +100,12 @@ def admin_uac_user(uid):
     if form.uac_options.data:
         current_app.logger.debug(form.uac_options.data)
     if form.validate_on_submit():
-        user.uac = UserAccessRoutes.query.filter_by(id=form.uac_options.data)
+        u_rec = UserAccessRoutes.query.all()
+        user_uac = []
+        for u in u_rec:
+            if u.id in form.uac_options.data:
+                user_uac.append(u)
+        user.uac = user_uac
         app_db.session.add(user)
         app_db.session.commit()
         flash("User Access Updated", "success")
