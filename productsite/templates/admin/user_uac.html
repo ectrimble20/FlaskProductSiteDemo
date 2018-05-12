@@ -5,15 +5,13 @@
             {{ form.hidden_tag() }}
             <fieldset class="form-group">
                 <legend class="border-bottom mb-4">Admin - Edit User</legend>
-                {% for route in routes %}
-                <div class="form-check">
-                    <input {% if route in user.uac %} checked {% endif %} type="checkbox" value="y" id="{{ route }}" name="{{ route }}" class="form-check-input">
-                    <label class="form-check-label" for="{{ route }}">Route: {{ route }}</label>
-                </div>
+                {% for opt in uac_options %}
+                    {{ form.is_admin(class="form-check-input") }}
+                    {{ form.is_admin.label(class="form-check-label") }}
                 {% endfor %}
             </fieldset>
             <div class="form-group">
-                <input class="btn btn-outline-info" id="submit" name="submit" type="submit" value="Update User Access">
+                {{ form.submit(class="btn btn-outline-info") }}
             </div>
         </form>
     </div>

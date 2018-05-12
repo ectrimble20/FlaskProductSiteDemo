@@ -1,6 +1,6 @@
 from flask_wtf import FlaskForm
 from wtforms import (StringField, PasswordField, SubmitField, BooleanField, TextAreaField, IntegerField, DateField,
-                     DecimalField, SelectField, HiddenField)
+                     DecimalField, SelectField, HiddenField, SelectMultipleField)
 from wtforms.validators import DataRequired, Length, Email, EqualTo, ValidationError
 from productsite.domain.users.models import User
 
@@ -36,6 +36,12 @@ class AdminEditUserForm(FlaskForm):
         if owner:   # if the email address is in use it will have an owner
             if int(owner.id) != int(self.id.data):  # if the owner of the email is NOT this user, we cannot allow it
                 raise ValidationError("That email address is already in use, please use a different email address.")
+
+
+class AdminEditUserUACForm(FlaskForm):
+    id = HiddenField('id', validators=[DataRequired()])
+    uac_options = SelectMultipleField('Routes', coerce=int)
+    submit = SubmitField("Update User Access")
 
 
 class AdminCreateProductForm(FlaskForm):
