@@ -12,7 +12,7 @@ class AdminCreateUserForm(FlaskForm):
     last_name = StringField('Last Name', validators=[DataRequired(), Length(min=2, max=35)])
     password = PasswordField('Password', validators=[DataRequired(), Length(min=8, max=20)])
     password_confirm = PasswordField('Confirm Password', validators=[DataRequired(), EqualTo('password')])
-    submit = SubmitField('Register')
+    submit = SubmitField('Create User')
 
     def validate_email(self, email):
         user = User.query.filter_by(email=email.data).first()
@@ -24,7 +24,7 @@ class AdminEditUserForm(FlaskForm):
     email = StringField('Email', validators=[DataRequired(), Email()])
     first_name = StringField('Password', validators=[DataRequired()])
     last_name = StringField('Password', validators=[DataRequired()])
-    submit = SubmitField('Update')
+    submit = SubmitField('Update User')
 
     def validate_email(self, email):
         # only check validation if the email address changed

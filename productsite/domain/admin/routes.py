@@ -1,7 +1,7 @@
 from flask import Blueprint, render_template, url_for, flash, redirect, request, current_app, abort
 from flask_login import login_required, current_user, login_user, logout_user
 from productsite.domain.users.models import UserAccessControl, User, UserType
-from productsite.domain.admin.forms import AdminCreateUserForm, AdminCreateProductForm
+from productsite.domain.admin.forms import AdminCreateUserForm, AdminEditUserForm
 from productsite import app_crypt
 from productsite.database import app_db
 
@@ -57,7 +57,7 @@ def admin_new_user():
 def admin_edit_user(id):
     uac_check(current_user.id, 'admin-user')
     user = User.query.get_or_404(id)
-    form = AdminCreateUserForm()
+    form = AdminEditUserForm()
     if form.validate_on_submit():
         user.email = form.email.data
         user.first_name = form.first_name.data

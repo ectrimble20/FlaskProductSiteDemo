@@ -79,3 +79,11 @@
         </form>
     </div>
 {% endblock content_main %}
+
+{% block content_left %}
+    <div class="content-section">
+        <div class="list-group">
+            <a href="{{ url_for('admin.admin_user') }}" class="list-group-item list-group-item-action">Back</a>
+        </div>
+    </div>
+{% endblock content_left %}
