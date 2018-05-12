@@ -1,9 +1,10 @@
-{% extends "layout.html" %}
-{% block content %}
+{% extends "layout_new.html" %}
+{% block content_main %}
     {% for product in products.items %}
         <article class="media content-section">
           <div class="media-body">
             <div class="article-metadata">
+                <a href="{{ url_for('products.list_product', c=product.category.id) }}"><span class="badge badge-secondary">{{ product.category.description }}</span></a>
               <a class="mr-2" href="{{ url_for('products.show_product', product_id=product.id) }}">{{ product.title }}</a>
             </div>
             <p class="article-content">{{ product.description }}</p>
@@ -22,4 +23,4 @@
             ...
         {% endif %}
     {% endfor %}
-{% endblock content %}
+{% endblock content_main %}

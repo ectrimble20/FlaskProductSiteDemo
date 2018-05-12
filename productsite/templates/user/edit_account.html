@@ -1,5 +1,5 @@
-{% extends "layout.html" %}
-{% block content %}
+{% extends "layout_new.html" %}
+{% block content_main %}
     <div class="content-section">
         <form method="POST" action="">
             {{ form.hidden_tag() }}
@@ -58,4 +58,4 @@
             <a href="{{ url_for('users.close_account') }}" class="ml-2">Close Account</a>
         </div>
     </div>
-{% endblock content %}
+{% endblock content_main %}
