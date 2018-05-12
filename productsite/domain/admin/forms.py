@@ -44,7 +44,6 @@ class AdminEditUserForm(FlaskForm):
 
 
 class AdminEditUserUACForm(FlaskForm):
-    id = HiddenField('id', validators=[DataRequired()])
     uac_options = MultiCheckboxField('Routes', coerce=int)
     submit = SubmitField("Update User Access")
 

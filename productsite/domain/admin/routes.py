@@ -106,7 +106,7 @@ def admin_uac_user(uid):
         flash("User Access Updated", "success")
         return redirect(url_for('admin.admin_user'))
     else:
-        form.uac_options.data = [i for i in user.uac.id]
+        form.uac_options.data = [i.id for i in user.uac]
         return render_template('admin/user_uac.html', form=form)
 
 
