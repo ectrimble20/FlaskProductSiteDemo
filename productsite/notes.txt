@@ -65,3 +65,17 @@ Planned Data Routes:
 /admin/cs/order                     - view orders
 /admin/cs/order/[id]                - view/work a specific order
 
+
+
+Next order of business.
+
+Revision 1's last changes implemented and added in some new POC elements, just things I wanted to hash out before I did
+more major changes to the system.
+
+The next changes to the branch will be the route changes and implementations.  I'll be building all paths prior to the
+implementation phase similar to how I built all the models prior to building the data sets.
+
+Right now, I'm thinking the CS and checkout routes will be part of the index routes, the cart route will be part of the
+products routes.  Admin will be it's own element, I'm not sure if I should consider it a domain object considering that
+it will not have a real representation, only being an administrative functionality. which will need only templates,
+routes and forms.
