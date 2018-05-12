@@ -3,6 +3,7 @@
     <article class="media content-section">
       <div class="media-body">
         <div class="article-metadata">
+            <span class="badge badge-secondary">{{ product.category.description }}</span>
           <a class="mr-2" href="{{ url_for('products.show_product', product_id=product.id) }}">{{ product.title }}</a>
         </div>
         <p class="article-content">{{ product.description }}</p>
