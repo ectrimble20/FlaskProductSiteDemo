@@ -1,33 +1,44 @@
 from flask import Blueprint, render_template, url_for, flash, redirect, request, current_app, abort
 from flask_login import login_required, current_user, login_user, logout_user
-from productsite.domain.users.models import UserAccessControl
+from productsite.domain.users.models import UserAccessControl, User, UserType
+from productsite.domain.users.forms import RegisterUserForm
 
 admin = Blueprint('admin', __name__)
 
 
 def uac_check(user_id, path_check):
+    """
     check = UserAccessControl.query.filter_by(user_id=user_id, allow=path_check).first()
     if not check:
         abort(403)
+    """
 
 
 @admin.route("/admin", methods=["GET"])
 @login_required
 def admin_index():
-    # uac_check(current_user.id, 'admin')  # we'll implement this later
+    uac_check(current_user.id, 'admin')
     return render_template('admin/admin.html', title="Administrative Home")
 
 
-@admin.route("/admin/user", methods=["GET", "POST"])
+@admin.route("/admin/user", methods=["GET"])
 @login_required
 def admin_user():
+    uac_check(current_user.id, 'admin-user')
+    user_list = User.query.all()
+    return render_template('admin/user.html', users=user_list)
+
+
+@admin.route("/admin/user/new", methods=["GET", "POST"])
+@login_required
+def admin_new_user():
     uac_check(current_user.id, 'admin-user')
     pass
 
 
 @admin.route("/admin/user/<int:id>", methods=["GET", "POST"])
 @login_required
-def admin_new_user():
+def admin_edit_user():
     uac_check(current_user.id, 'admin-user')
     pass
 
@@ -41,7 +52,7 @@ def admin_ban_user():
 
 @admin.route("/admin/user/<int:id>/uac", methods=["GET", "POST"])
 @login_required
-def admin_uca_user():
+def admin_uac_user():
     uac_check(current_user.id, 'admin-user-uac')
     pass
 
