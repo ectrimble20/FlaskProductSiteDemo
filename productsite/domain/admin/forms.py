@@ -21,7 +21,7 @@ class AdminCreateUserForm(FlaskForm):
 
 
 class AdminEditUserForm(FlaskForm):
-    id = HiddenField('id', coerce=int, validators=[DataRequired()])
+    id = HiddenField('id', validators=[DataRequired()])
     email = StringField('Email', validators=[DataRequired(), Email()])
     first_name = StringField('First Name', validators=[DataRequired()])
     last_name = StringField('Last Name', validators=[DataRequired()])
@@ -31,7 +31,7 @@ class AdminEditUserForm(FlaskForm):
         # validation needs to be different since it's not ALWAYS going to be this user updating it.
         owner = User.query.filter_by(email=email.data).first()
         if owner:   # if the email address is in use it will have an owner
-            if owner.id != self.id:  # if the owner of the email is NOT this user, we cannot allow it
+            if int(owner.id) != int(self.id):  # if the owner of the email is NOT this user, we cannot allow it
                 raise ValidationError("That email address is already in use, please use a different email address.")
 
 
