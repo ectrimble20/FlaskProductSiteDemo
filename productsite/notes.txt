@@ -79,3 +79,23 @@ Right now, I'm thinking the CS and checkout routes will be part of the index rou
 products routes.  Admin will be it's own element, I'm not sure if I should consider it a domain object considering that
 it will not have a real representation, only being an administrative functionality. which will need only templates,
 routes and forms.
+
+Okay, so for some new functionality that I've found I need in order to manage things, we need to look at the user
+structure again.
+
+I think having a model specifically for "UserType" isn't helpful.  I think we can accomplish what that model would
+handle by simply having 2 flags on the user table.  1 flag for "admin" and another for "customer_service", so if a
+user is an administrator, they have the admin flag, if they can only perform CS functions, they have the
+customer_service flag.
+
+This should simply things a bit.
+
+I think the UAC needs some work as well, it will serve as a "what can an admin/CS user do" function.  The way it's
+currently implemented (though not in the code) is that a user will have an allowed "route" assigned to it, this route
+is then checked against a user's ID with a "SELECT WHERE ID AND ROUTE ==" query.  What I'd like to do, is to make
+the routes DB tables, so it's an ID check, not a string check.  This will also allow me to simplify the assignment
+of UAC routes to a user.
+
+We can then use a relational table to assign route ID + user ID
+
+This will require me to rebuild the user DB table, but I think it'll make things easier to implement in the future.

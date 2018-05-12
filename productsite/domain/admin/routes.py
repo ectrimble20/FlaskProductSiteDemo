@@ -37,19 +37,24 @@ def admin_new_user():
     uac_check(current_user.id, 'admin-user')
     form = AdminCreateUserForm()
     if form.validate_on_submit():
-        hashed_password = app_crypt.generate_password_hash(form.password.data).decode('utf-8')
-        user = User(
-            email=form.email.data,
-            first_name=form.first_name.data,
-            last_name=form.last_name.data,
-            password=hashed_password
-        )
-        app_db.session.add(user)
-        app_db.session.commit()
-        flash("User Account Created Successfully", "success")
-        return redirect(url_for('admin.admin_user'))
-    else:
-        return render_template('admin/user_create.html', form=form)
+        # we need to ensure that either admin or CS is checked
+        if not form.is_admin.data and not form.is_cs.data:
+            flash("You must select Is Admin or Is Customer Service for an admin created user", "danger")
+        else:
+            hashed_password = app_crypt.generate_password_hash(form.password.data).decode('utf-8')
+            user = User(
+                email=form.email.data,
+                first_name=form.first_name.data,
+                last_name=form.last_name.data,
+                password=hashed_password,
+                flag_admin=form.is_admin.data,
+                flag_cs=form.is_cs.data
+            )
+            app_db.session.add(user)
+            app_db.session.commit()
+            flash("User Account Created Successfully", "success")
+            return redirect(url_for('admin.admin_user'))
+    return render_template('admin/user_create.html', form=form)
 
 
 @admin.route("/admin/user/<int:uid>", methods=["GET", "POST"])
