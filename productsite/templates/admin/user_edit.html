@@ -46,31 +46,13 @@
                         {{ form.last_name(class="form-control form-control-lg") }}
                     {% endif %}
                 </div>
-                <div class="form-group">
+                <div class="form-check">
+                    {{ form.is_admin(class="form-check-input") }}
                     {{ form.is_admin.label(class="form-check-label") }}
-                    {% if form.is_admin.errors %}
-                        {{ form.is_admin(class="form-check form-check-lg is-invalid") }}
-                        <div class="invalid-feedback">
-                            {% for error in form.is_admin.errors %}
-                                <span>{{ error }}</span>
-                            {% endfor %}
-                        </div>
-                    {% else %}
-                        {{ form.is_admin(class="form-check-input") }}
-                    {% endif %}
                 </div>
-                <div class="form-group">
+                <div class="form-check">
+                    {{ form.is_cs(class="form-check-input") }}
                     {{ form.is_cs.label(class="form-check-label") }}
-                    {% if form.is_cs.errors %}
-                        {{ form.is_cs(class="form-check form-check-lg is-invalid") }}
-                        <div class="invalid-feedback">
-                            {% for error in form.is_cs.errors %}
-                                <span>{{ error }}</span>
-                            {% endfor %}
-                        </div>
-                    {% else %}
-                        {{ form.is_cs(class="form-check-input") }}
-                    {% endif %}
                 </div>
             </fieldset>
             <div class="form-group">

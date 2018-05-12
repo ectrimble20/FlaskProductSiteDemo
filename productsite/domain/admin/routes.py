@@ -79,7 +79,7 @@ def admin_edit_user(uid):
         form.first_name.data = user.first_name
         form.last_name.data = user.last_name
         form.is_admin.data = user.flag_admin
-        form.is_cs = user.flag_cs
+        form.is_cs.data = user.flag_cs
         return render_template('admin/user_edit.html', form=form)
 
 
