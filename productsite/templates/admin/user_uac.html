@@ -1,0 +1,28 @@
+{% extends "layout_new.html" %}
+{% block content_main %}
+    <div class="content-section">
+        <form method="POST" action="">
+            {{ form.hidden_tag() }}
+            <fieldset class="form-group">
+                <legend class="border-bottom mb-4">Admin - Edit User</legend>
+                {% for uac in uac_group %}
+                <div class="form-check">
+                    <input {% if uac in users_acg %} checked {% endif %} type="checkbox" value="y" id="{{ uac }}" name="{{ uac }}" class="form-check-input">
+                    <label class="form-check-label" for="{{ uac }}">Route: {{ uac }}</label>
+                </div>
+                {% endfor %}
+            </fieldset>
+            <div class="form-group">
+                <input class="btn btn-outline-info" id="submit" name="submit" type="submit" value="Update User Access">
+            </div>
+        </form>
+    </div>
+{% endblock content_main %}
+
+{% block content_left %}
+    <div class="content-section">
+        <div class="list-group">
+            <a href="{{ url_for('admin.admin_user') }}" class="list-group-item list-group-item-action">Back</a>
+        </div>
+    </div>
+{% endblock content_left %}
