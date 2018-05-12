@@ -96,14 +96,16 @@ def admin_uac_user(uid):
     uac_check(current_user.id, 'admin-user-uac')
     user = User.query.get(uid)
     form = AdminEditUserUACForm()
+    form.uac_options.choices = [(u.id, u.route) for u in UserAccessRoutes.query.all()]
     if form.validate_on_submit():
+        # need to see how this comes in in order to be able to parse it
+        current_app.logger.debug(form.uac_options.data)
         user.uac = form.uac_options.data
         app_db.session.add(user)
         app_db.session.commit()
         flash("User Access Updated", "success")
         return redirect(url_for('admin.admin_user'))
     else:
-        form.uac_options.choices = [(u.id, u.route) for u in UserAccessRoutes.query.all()]
         # indicate which options are already set for the user
         for option in form.uac_options:
             if user.uac == option:
