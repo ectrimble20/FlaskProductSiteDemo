@@ -4,6 +4,7 @@ from wtforms import StringField, SubmitField, BooleanField, TextAreaField, Integ
 from wtforms.validators import DataRequired
 
 
+# TODO - This needs to go away in favor of the admin forms
 class ProductAdminAddProduct(FlaskForm):
     title = StringField('Title', validators=[DataRequired()])
     description = TextAreaField('Description', validators=[DataRequired()])

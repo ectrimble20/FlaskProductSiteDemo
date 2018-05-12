@@ -1,7 +1,9 @@
 from flask import Blueprint, render_template, url_for, flash, redirect, request, current_app, abort
 from flask_login import login_required, current_user, login_user, logout_user
 from productsite.domain.users.models import UserAccessControl, User, UserType
-from productsite.domain.users.forms import RegisterUserForm
+from productsite.domain.admin.forms import AdminCreateUserForm, AdminCreateProductForm
+from productsite import app_crypt
+from productsite.database import app_db
 
 admin = Blueprint('admin', __name__)
 
@@ -33,14 +35,42 @@ def admin_user():
 @login_required
 def admin_new_user():
     uac_check(current_user.id, 'admin-user')
-    pass
+    form = AdminCreateUserForm()
+    if form.validate_on_submit():
+        hashed_password = app_crypt.generate_password_hash(form.password.data).decode('utf-8')
+        user = User(
+            email=form.email.data,
+            first_name=form.first_name.data,
+            last_name=form.last_name.data,
+            password=hashed_password
+        )
+        app_db.session.add(user)
+        app_db.session.commit()
+        flash("User Account Created Successfully", "success")
+        return render_template(url_for('admin.admin_user'))
+    else:
+        return render_template('admin/user_create.html', form=form)
 
 
 @admin.route("/admin/user/<int:id>", methods=["GET", "POST"])
 @login_required
-def admin_edit_user():
+def admin_edit_user(id):
     uac_check(current_user.id, 'admin-user')
-    pass
+    user = User.query.get_or_404(id)
+    form = AdminCreateUserForm()
+    if form.validate_on_submit():
+        user.email = form.email.data
+        user.first_name = form.first_name.data
+        user.last_name = form.last_name.data
+        app_db.session.add(user)
+        app_db.session.commit()
+        flash("User Account Updated Successfully", "success")
+        return render_template(url_for('admin.admin_user'))
+    else:
+        form.email.data = user.email
+        form.first_name.data = user.email
+        form.last_name.data = user.last_name
+        return render_template('admin/user_edit.html', form=form)
 
 
 @admin.route("/admin/user/<int:id>/ban", methods=["POST"])
@@ -67,6 +97,7 @@ def admin_product():
 @admin.route("/admin/product/new", methods=["GET", "POST"])
 @login_required
 def admin_new_product():
+
     uac_check(current_user.id, 'admin-product-new')
     pass
 

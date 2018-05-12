@@ -1,0 +1,58 @@
+from flask_wtf import FlaskForm
+from flask_login import current_user
+from wtforms import (StringField, PasswordField, SubmitField, BooleanField, TextAreaField, IntegerField, DateField,
+                     DecimalField, SelectField)
+from wtforms.validators import DataRequired, Length, Email, EqualTo, ValidationError
+from productsite.domain.users.models import User
+
+
+class AdminCreateUserForm(FlaskForm):
+    email = StringField('Email', validators=[DataRequired(), Email()])
+    first_name = StringField('First Name', validators=[DataRequired(), Length(min=2, max=35)])
+    last_name = StringField('Last Name', validators=[DataRequired(), Length(min=2, max=35)])
+    password = PasswordField('Password', validators=[DataRequired(), Length(min=8, max=20)])
+    password_confirm = PasswordField('Confirm Password', validators=[DataRequired(), EqualTo('password')])
+    submit = SubmitField('Register')
+
+    def validate_email(self, email):
+        user = User.query.filter_by(email=email.data).first()
+        if user:
+            raise ValidationError("That email address is already in use, please use a different email address.")
+
+
+class AdminEditUserForm(FlaskForm):
+    email = StringField('Email', validators=[DataRequired(), Email()])
+    first_name = StringField('Password', validators=[DataRequired()])
+    last_name = StringField('Password', validators=[DataRequired()])
+    submit = SubmitField('Update')
+
+    def validate_email(self, email):
+        # only check validation if the email address changed
+        if email.data != current_user.email:
+            user = User.query.filter_by(email=email.data).first()
+            if user:
+                raise ValidationError("That email address is already in use, please use a different email address.")
+
+
+class AdminCreateProductForm(FlaskForm):
+    title = StringField('Title', validators=[DataRequired()])
+    description = TextAreaField('Description', validators=[DataRequired()])
+    quantity = IntegerField('Quantity', validators=[DataRequired()])
+    price = DecimalField('Price', validators=[DataRequired()])
+    expect_stock_quantity = IntegerField('Expected Stock Quantity', validators=[DataRequired()])
+    flag_out_of_stock = BooleanField('Out Of Stock')
+    expect_restock_date = DateField('Expected Restock Date', format="%Y-%m-%d")
+    categories = SelectField("Category", coerce=int, validators=[DataRequired()])
+    submit = SubmitField('Create New Product')
+
+
+class AdminEditProductForm(FlaskForm):
+    title = StringField('Title', validators=[DataRequired()])
+    description = TextAreaField('Description', validators=[DataRequired()])
+    quantity = IntegerField('Quantity', validators=[DataRequired()])
+    price = DecimalField('Price', validators=[DataRequired()])
+    expect_stock_quantity = IntegerField('Expected Stock Quantity', validators=[DataRequired()])
+    flag_out_of_stock = BooleanField('Out Of Stock')
+    expect_restock_date = DateField('Expected Restock Date', format="%Y-%m-%d")
+    categories = SelectField("Category", coerce=int, validators=[DataRequired()])
+    submit = SubmitField('Update Product')
