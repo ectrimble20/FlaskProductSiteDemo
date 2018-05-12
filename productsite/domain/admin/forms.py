@@ -1,7 +1,7 @@
 from flask_wtf import FlaskForm
 from flask_login import current_user
 from wtforms import (StringField, PasswordField, SubmitField, BooleanField, TextAreaField, IntegerField, DateField,
-                     DecimalField, SelectField)
+                     DecimalField, SelectField, HiddenField)
 from wtforms.validators import DataRequired, Length, Email, EqualTo, ValidationError
 from productsite.domain.users.models import User
 
@@ -21,6 +21,7 @@ class AdminCreateUserForm(FlaskForm):
 
 
 class AdminEditUserForm(FlaskForm):
+    id = HiddenField('id', coerce=int, validators=[DataRequired()])
     email = StringField('Email', validators=[DataRequired(), Email()])
     first_name = StringField('First Name', validators=[DataRequired()])
     last_name = StringField('Last Name', validators=[DataRequired()])

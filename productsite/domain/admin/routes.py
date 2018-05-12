@@ -67,6 +67,7 @@ def admin_edit_user(uid):
         flash("User Account Updated Successfully", "success")
         return redirect(url_for('admin.admin_user'))
     else:
+        form.id.data = user.id
         form.email.data = user.email
         form.first_name.data = user.first_name
         form.last_name.data = user.last_name
