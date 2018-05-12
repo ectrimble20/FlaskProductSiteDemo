@@ -1,5 +1,5 @@
-{% extends "layout.html" %}
-{% block content %}
+{% extends "layout_new.html" %}
+{% block content_main %}
     {% for product in products.items %}
         <article class="media content-section">
           <div class="media-body">
@@ -22,4 +22,4 @@
             ...
         {% endif %}
     {% endfor %}
-{% endblock content %}
+{% endblock content_main %}

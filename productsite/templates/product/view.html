@@ -1,5 +1,5 @@
-{% extends "layout.html" %}
-{% block content %}
+{% extends "layout_new.html" %}
+{% block content_main %}
     <article class="media content-section">
       <div class="media-body">
         <div class="article-metadata">
@@ -9,4 +9,4 @@
         <p>${{ '{:,.2f}'.format(product.price) }} - Stock: {{ product.quantity }}</p>
       </div>
     </article>
-{% endblock content %}
+{% endblock content_main %}
