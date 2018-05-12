@@ -95,7 +95,7 @@ def admin_ban_user(uid):
 def admin_uac_user(uid):
     uac_check(current_user.id, 'admin-user-uac')
     user = User.query.get(uid)
-    form = AdminEditUserUACForm(request.POST, user)
+    form = AdminEditUserUACForm()
     if form.validate_on_submit():
         user.uac = form.uac_options.data
         app_db.session.add(user)
