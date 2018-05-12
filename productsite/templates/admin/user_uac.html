@@ -17,6 +17,13 @@
                         {{ opt(class="form-check-input") }}
                         {{ opt.label(class="form-check-label") }}
                     </div>
+                    {% if opt.errors %}
+                    <div class="invalid-feedback">
+                        {% for err in opt.errors %}
+                            <span>{{ err }}</span>
+                        {% endfor %}
+                    </div>
+                    {% endif %}
                 {% endfor %}
             </fieldset>
             <div class="form-group">
