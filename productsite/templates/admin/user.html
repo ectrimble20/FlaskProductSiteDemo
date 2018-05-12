@@ -6,9 +6,9 @@
             <div class="card-header">{{ user.first_name }} {{ user.last_name }} - {{ user.email }}</div>
             <div class="card-content">User Registered: {{ user.create_date.strftime('%Y-%m-%d') }}</div>
             <div class="card-content pt-2 pb-2">
-                <a href="{{ url_for('admin.admin_edit_user', id=user.id) }}" class="btn btn-info btn-small">Edit</a>
-                <a href="{{ url_for('admin.admin_uac_user', id=user.id) }}" class="btn btn-info btn-small">UAC</a>
-                <a href="{{ url_for('admin.admin_ban_user', id=user.id) }}" class="btn btn-warning btn-small">Ban</a>
+                <a href="{{ url_for('admin.admin_edit_user', uid=user.id) }}" class="btn btn-info btn-small">Edit</a>
+                <a href="{{ url_for('admin.admin_uac_user', uid=user.id) }}" class="btn btn-info btn-small">UAC</a>
+                <a href="{{ url_for('admin.admin_ban_user', uid=user.id) }}" class="btn btn-warning btn-small">Ban</a>
             </div>
         </div>
     {% endfor %}
