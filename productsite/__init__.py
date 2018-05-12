@@ -25,8 +25,10 @@ def create_flask_app(config_class=Config):
     from productsite.domain.index.routes import index
     from productsite.domain.users.routes import users
     from productsite.domain.products.routes import products
+    from productsite.domain.admin.routes import admin
     # and register our blueprints
     app.register_blueprint(index)
     app.register_blueprint(users)
     app.register_blueprint(products)
+    app.register_blueprint(admin)
     return app
