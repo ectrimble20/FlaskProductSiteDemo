@@ -47,7 +47,7 @@ def admin_new_user():
         app_db.session.add(user)
         app_db.session.commit()
         flash("User Account Created Successfully", "success")
-        return render_template(url_for('admin.admin_user'))
+        return redirect(url_for('admin.admin_user'))
     else:
         return render_template('admin/user_create.html', form=form)
 
@@ -65,7 +65,7 @@ def admin_edit_user(id):
         app_db.session.add(user)
         app_db.session.commit()
         flash("User Account Updated Successfully", "success")
-        return render_template(url_for('admin.admin_user'))
+        return redirect(url_for('admin.admin_user'))
     else:
         form.email.data = user.email
         form.first_name.data = user.email

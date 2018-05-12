@@ -22,8 +22,8 @@ class AdminCreateUserForm(FlaskForm):
 
 class AdminEditUserForm(FlaskForm):
     email = StringField('Email', validators=[DataRequired(), Email()])
-    first_name = StringField('Password', validators=[DataRequired()])
-    last_name = StringField('Password', validators=[DataRequired()])
+    first_name = StringField('First Name', validators=[DataRequired()])
+    last_name = StringField('Last Name', validators=[DataRequired()])
     submit = SubmitField('Update User')
 
     def validate_email(self, email):
