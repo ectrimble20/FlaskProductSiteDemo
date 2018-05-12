@@ -66,6 +66,7 @@ def product_admin_edit(product_id):
         return redirect(url_for('products.product_admin_edit', product_id=p.id))
     else:
         p = Product.query.get(product_id)
+        form.categories.default = p.category_id
         form.title.data = p.title
         form.description.data = p.description
         form.quantity.data = p.quantity
