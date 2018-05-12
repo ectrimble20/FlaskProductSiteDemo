@@ -27,10 +27,10 @@ class AdminEditUserForm(FlaskForm):
     submit = SubmitField('Update User')
 
     def validate_email(self, email):
-        # only check validation if the email address changed
-        if email.data != current_user.email:
-            user = User.query.filter_by(email=email.data).first()
-            if user:
+        # validation needs to be different since it's not ALWAYS going to be this user updating it.
+        owner = User.query.filter_by(email=email.data).first()
+        if owner:   # if the email address is in use it will have an owner
+            if owner.id != self.id:  # if the owner of the email is NOT this user, we cannot allow it
                 raise ValidationError("That email address is already in use, please use a different email address.")
 
 
