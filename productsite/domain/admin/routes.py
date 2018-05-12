@@ -1,6 +1,6 @@
 from flask import Blueprint, render_template, url_for, flash, redirect, request, current_app, abort
 from flask_login import login_required, current_user, login_user, logout_user
-from productsite.domain.users.models import User, uac
+from productsite.domain.users.models import User, UserAccessRoutes
 from productsite.domain.admin.forms import AdminCreateUserForm, AdminEditUserForm
 from productsite import app_crypt
 from productsite.database import app_db
@@ -95,10 +95,11 @@ def admin_ban_user(uid):
 def admin_uac_user(uid):
     uac_check(current_user.id, 'admin-user-uac')
     user = User.query.get(uid)
+    routes = UserAccessRoutes.query.all()
     uac_group = uac.query.all()
     users_acg = uac.query.filter(user_id=uid)
     if request.method == 'GET':
-        return render_template('admin/user_uac.html', users_acg=users_acg, uac_group=uac_group, user=user)
+        return render_template('admin/user_uac.html', routes=routes, user=user)
     return redirect(url_for('admin.admin_user'))
 
 

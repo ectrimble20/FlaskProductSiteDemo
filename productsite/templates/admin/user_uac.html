@@ -5,10 +5,10 @@
             {{ form.hidden_tag() }}
             <fieldset class="form-group">
                 <legend class="border-bottom mb-4">Admin - Edit User</legend>
-                {% for uac in uac_group %}
+                {% for route in routes %}
                 <div class="form-check">
-                    <input {% if uac in users_acg %} checked {% endif %} type="checkbox" value="y" id="{{ uac }}" name="{{ uac }}" class="form-check-input">
-                    <label class="form-check-label" for="{{ uac }}">Route: {{ uac }}</label>
+                    <input {% if route in user.uac %} checked {% endif %} type="checkbox" value="y" id="{{ route }}" name="{{ route }}" class="form-check-input">
+                    <label class="form-check-label" for="{{ route }}">Route: {{ route }}</label>
                 </div>
                 {% endfor %}
             </fieldset>

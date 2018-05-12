@@ -28,6 +28,8 @@ class User(app_db.Model, UserMixin):
     create_date = app_db.Column(app_db.DateTime, nullable=False, default=datetime.utcnow)
     flag_admin = app_db.Column(app_db.Boolean, nullable=False, default=False)
     flag_cs = app_db.Column(app_db.Boolean, nullable=False, default=False)
+    uac = app_db.relationship('UserAccessRoutes', secondary=uac, lazy='subquery',
+                              backref=app_db.backref('access', lazy=True))
 
     def __repr__(self):
         return "<User('{}','{}','{}','{}')>".format(self.id, self.email, self.first_name, self.last_name)
