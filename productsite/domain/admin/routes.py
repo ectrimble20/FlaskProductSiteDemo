@@ -96,8 +96,6 @@ def admin_uac_user(uid):
     uac_check(current_user.id, 'admin-user-uac')
     user = User.query.get(uid)
     routes = UserAccessRoutes.query.all()
-    uac_group = uac.query.all()
-    users_acg = uac.query.filter(user_id=uid)
     if request.method == 'GET':
         return render_template('admin/user_uac.html', routes=routes, user=user)
     return redirect(url_for('admin.admin_user'))
