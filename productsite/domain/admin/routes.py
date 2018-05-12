@@ -52,11 +52,11 @@ def admin_new_user():
         return render_template('admin/user_create.html', form=form)
 
 
-@admin.route("/admin/user/<int:id>", methods=["GET", "POST"])
+@admin.route("/admin/user/<int:uid>", methods=["GET", "POST"])
 @login_required
-def admin_edit_user(id):
+def admin_edit_user(uid):
     uac_check(current_user.id, 'admin-user')
-    user = User.query.get_or_404(id)
+    user = User.query.get_or_404(uid)
     form = AdminEditUserForm()
     if form.validate_on_submit():
         user.email = form.email.data
@@ -68,23 +68,23 @@ def admin_edit_user(id):
         return redirect(url_for('admin.admin_user'))
     else:
         form.email.data = user.email
-        form.first_name.data = user.email
+        form.first_name.data = user.first_name
         form.last_name.data = user.last_name
         return render_template('admin/user_edit.html', form=form)
 
 
-@admin.route("/admin/user/<int:id>/ban", methods=["POST"])
+@admin.route("/admin/user/<int:uid>/ban", methods=["POST"])
 @login_required
 def admin_ban_user():
     uac_check(current_user.id, 'admin-user-ban')
-    pass
+    return redirect(url_for('admin.admin_user'))
 
 
-@admin.route("/admin/user/<int:id>/uac", methods=["GET", "POST"])
+@admin.route("/admin/user/<int:uid>/uac", methods=["GET", "POST"])
 @login_required
 def admin_uac_user():
     uac_check(current_user.id, 'admin-user-uac')
-    pass
+    return redirect(url_for('admin.admin_user'))
 
 
 @admin.route("/admin/product", methods=["GET", "POST"])
@@ -102,21 +102,21 @@ def admin_new_product():
     pass
 
 
-@admin.route("/admin/product/<int:id>", methods=["GET", "POST"])
+@admin.route("/admin/product/<int:pid>", methods=["GET", "POST"])
 @login_required
 def admin_edit_product():
     uac_check(current_user.id, 'admin-product')
     pass
 
 
-@admin.route("/admin/product/<int:id>/review", methods=["GET", "POST"])
+@admin.route("/admin/product/<int:pid>/review", methods=["GET", "POST"])
 @login_required
 def admin_edit_product_review():
     uac_check(current_user.id, 'admin-product-review')
     pass
 
 
-@admin.route("/admin/product/<int:id>/rating", methods=["GET", "POST"])
+@admin.route("/admin/product/<int:pid>/rating", methods=["GET", "POST"])
 @login_required
 def admin_edit_product_rating():
     uac_check(current_user.id, 'admin-product-rating')
@@ -137,7 +137,7 @@ def admin_cs_ticket():
     pass
 
 
-@admin.route("/admin/cs/ticket/<int:id>", methods=["GET", "POST"])
+@admin.route("/admin/cs/ticket/<int:tid>", methods=["GET", "POST"])
 @login_required
 def admin_cs_work_ticket():
     uac_check(current_user.id, 'admin-cs-ticket-work')
@@ -151,7 +151,7 @@ def admin_cs_order():
     pass
 
 
-@admin.route("/admin/cs/order/<int:id>", methods=["GET", "POST"])
+@admin.route("/admin/cs/order/<int:oid>", methods=["GET", "POST"])
 @login_required
 def admin_cs_work_order():
     uac_check(current_user.id, 'admin-cs-order-work')
