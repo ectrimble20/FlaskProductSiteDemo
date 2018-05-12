@@ -74,6 +74,7 @@ def product_admin_edit(product_id):
         form.expect_stock_quantity.data = p.expect_stock_quantity
         form.flag_out_of_stock.data = p.flag_out_of_stock
         form.expect_restock_date.data = p.expect_restock_date
+        current_app.logger.debug("Product details - {}".format(p))
         return render_template('product/edit.html', title="Administration - Edit Product", form=form)
 
 
