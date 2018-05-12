@@ -5,7 +5,7 @@
             {{ form.hidden_tag() }}
             <fieldset class="form-group">
                 <legend class="border-bottom mb-4">Admin - Edit User</legend>
-                {% for opt in uac_options %}
+                {% for opt in form.uac_options %}
                     {{ form.is_admin(class="form-check-input") }}
                     {{ form.is_admin.label(class="form-check-label") }}
                 {% endfor %}
