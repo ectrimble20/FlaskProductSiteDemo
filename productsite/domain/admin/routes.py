@@ -100,13 +100,14 @@ def admin_uac_user(uid):
     if form.uac_options.data:
         current_app.logger.debug(form.uac_options.data)
     if form.validate_on_submit():
-        user.uac = form.uac_options.data
+        user.uac = UserAccessRoutes.query.filter_by(id=form.uac_options.data)
         app_db.session.add(user)
         app_db.session.commit()
         flash("User Access Updated", "success")
         return redirect(url_for('admin.admin_user'))
     else:
-        return render_template('admin/user_uac.html', user=user, form=form)
+        form.uac_options.data = [i for i in user.uac.id]
+        return render_template('admin/user_uac.html', form=form)
 
 
 @admin.route("/admin/product", methods=["GET", "POST"])
