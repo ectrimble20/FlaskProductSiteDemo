@@ -106,11 +106,9 @@ def admin_uac_user(uid):
         flash("User Access Updated", "success")
         return redirect(url_for('admin.admin_user'))
     else:
-        # indicate which options are already set for the user
-        for option in form.uac_options:
-            if user.uac == option:
-                option.data = 'y'
-        return render_template('admin/user_uac.html', user=user, form=form)
+        for err in form.errors:
+            current_app.logger.debug(err)
+    return render_template('admin/user_uac.html', user=user, form=form)
 
 
 @admin.route("/admin/product", methods=["GET", "POST"])
