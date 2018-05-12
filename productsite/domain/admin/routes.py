@@ -94,14 +94,21 @@ def admin_ban_user(uid):
 @login_required
 def admin_uac_user(uid):
     uac_check(current_user.id, 'admin-user-uac')
-    form = AdminEditUserUACForm()
-    form.uac_options.choices = [(u.id, u.route) for u in UserAccessRoutes.query.all()]
     user = User.query.get(uid)
-    routes = UserAccessRoutes.query.all()
+    form = AdminEditUserUACForm(request.POST, user)
     if form.validate_on_submit():
+        user.uac = form.uac_options.data
+        app_db.session.add(user)
+        app_db.session.commit()
+        flash("User Access Updated", "success")
         return redirect(url_for('admin.admin_user'))
     else:
-        return render_template('admin/user_uac.html', routes=routes, user=user, form=form)
+        form.uac_options.choices = [(u.id, u.route) for u in UserAccessRoutes.query.all()]
+        # indicate which options are already set for the user
+        for option in form.uac_options:
+            if user.uac == option:
+                option.data = 'y'
+        return render_template('admin/user_uac.html', user=user, form=form)
 
 
 @admin.route("/admin/product", methods=["GET", "POST"])

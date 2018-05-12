@@ -1,6 +1,6 @@
 from flask_wtf import FlaskForm
 from wtforms import (StringField, PasswordField, SubmitField, BooleanField, TextAreaField, IntegerField, DateField,
-                     DecimalField, SelectField, HiddenField, SelectMultipleField)
+                     DecimalField, SelectField, HiddenField, SelectMultipleField, widgets)
 from wtforms.validators import DataRequired, Length, Email, EqualTo, ValidationError
 from productsite.domain.users.models import User
 
@@ -40,7 +40,7 @@ class AdminEditUserForm(FlaskForm):
 
 class AdminEditUserUACForm(FlaskForm):
     id = HiddenField('id', validators=[DataRequired()])
-    uac_options = SelectMultipleField('Routes', coerce=int)
+    uac_options = MultiCheckboxField('Routes', coerce=int)
     submit = SubmitField("Update User Access")
 
 
@@ -66,3 +66,8 @@ class AdminEditProductForm(FlaskForm):
     expect_restock_date = DateField('Expected Restock Date', format="%Y-%m-%d")
     categories = SelectField("Category", coerce=int, validators=[DataRequired()])
     submit = SubmitField('Update Product')
+
+
+class MultiCheckboxField(SelectMultipleField):
+    widget = widgets.ListWidget(prefix_label=False)
+    option_widget = widgets.CheckboxInput()
