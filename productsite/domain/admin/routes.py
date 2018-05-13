@@ -153,7 +153,7 @@ def admin_new_product():
         flash("Product Created", "success")
         return redirect(url_for('admin.admin_edit_product', product_id=p.id))
     else:
-        render_template('admin/product_create.html', form=form)
+        return render_template('admin/product_create.html', form=form)
 
 
 @admin.route("/admin/category/new", methods=["GET", "POST"])
