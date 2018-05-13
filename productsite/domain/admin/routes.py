@@ -152,7 +152,7 @@ def admin_new_product():
         flash("Product Created", "success")
         return redirect(url_for('admin.admin_edit_product', product_id=p.id))
     else:
-        form.categories = ProductCategory.query.all()
+        form.categories.choices = ProductCategory.query.all()
         render_template('admin/product_create.html', form=form)
 
 
