@@ -5,10 +5,9 @@
             <tr>
                 <th>Category</th>
                 <th>Product</th>
-                <th>Description</th>
                 <th>Price</th>
-                <th>In Stock</th>
-                <th>Maintain Stock</th>
+                <th>Stock</th>
+                <th>Baseline</th>
                 <th>Actions</th>
             </tr>
         </thead>
@@ -17,13 +16,17 @@
         <tr>
             <td><span class="badge badge-dark">{{ product.category.description }}</span></td>
             <td><a href="{{ url_for('admin.admin_edit_product', pid=product.id) }}">{{ product.title }}</a></td>
-            <td>{{ product.description }}</td>
             <td>${{ '{:,.2f}'.format(product.price) }}</td>
             <td>{{ product.quantity }}</td>
             <td>{{ product.expect_stock_quantity }}</td>
             <td>
-                <a class="btn btn-info btn-sm" href="{{ url_for('admin.admin_edit_product', pid=product.id) }}">Edit</a>
-                <a class="btn btn-danger btn-sm" href="{{ url_for('admin.admin_delete_product', pid=product.id) }}">Delete</a>
+                <div class="btn-group btn-group-sm">
+                    <button type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown">Actions</button>
+                    <div class="dropdown-menu">
+                        <a class="dropdown-item" href="{{ url_for('admin.admin_edit_product', pid=product.id) }}">Edit</a>
+                        <a class="dropdown-item" href="{{ url_for('admin.admin_delete_product', pid=product.id) }}">Delete</a>
+                    </div>
+                </div>
             </td>
         </tr>
         {% endfor %}
