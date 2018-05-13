@@ -151,7 +151,7 @@ def admin_new_product():
         app_db.session.add(p)
         app_db.session.commit()
         flash("Product Created", "success")
-        return redirect(url_for('admin.admin_edit_product', product_id=p.id))
+        return redirect(url_for('admin.admin_edit_product', pid=p.id))
     else:
         return render_template('admin/product_create.html', form=form)
 
@@ -190,7 +190,7 @@ def admin_edit_product(pid):
         app_db.session.add(p)
         app_db.session.commit()
         flash("Product Updated", "success")
-        return redirect(url_for('admin.admin_edit_product', product_id=p.id))
+        return redirect(url_for('admin.admin_edit_product', pid=p.id))
     else:
         form.title.data = product.title
         form.description.data = product.description
