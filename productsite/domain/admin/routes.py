@@ -1,7 +1,9 @@
 from flask import Blueprint, render_template, url_for, flash, redirect, request, current_app, abort
 from flask_login import login_required, current_user, login_user, logout_user
 from productsite.domain.users.models import User, UserAccessRoutes
-from productsite.domain.admin.forms import AdminCreateUserForm, AdminEditUserForm, AdminEditUserUACForm
+from productsite.domain.products.models import ProductCategory, Product
+from productsite.domain.admin.forms import (AdminCreateUserForm, AdminEditUserForm, AdminEditUserUACForm,
+                                            AdminCreateProductForm, AdminEditProductForm)
 from productsite import app_crypt
 from productsite.database import app_db
 
@@ -68,7 +70,6 @@ def admin_edit_user(uid):
         user.last_name = form.last_name.data
         user.flag_admin = form.is_admin.data
         user.flag_cs = form.is_cs.data
-        app_db.session.add(user)
         app_db.session.commit()
         flash("User Account Updated Successfully", "success")
         return redirect(url_for('admin.admin_user'))
@@ -105,7 +106,6 @@ def admin_uac_user(uid):
             if u.id in form.uac_options.data:
                 user_uac.append(u)
         user.uac = user_uac
-        app_db.session.add(user)
         app_db.session.commit()
         flash("User Access Updated", "success")
         return redirect(url_for('admin.admin_user'))
@@ -118,22 +118,85 @@ def admin_uac_user(uid):
 @login_required
 def admin_product():
     uac_check('admin.product')
-    pass
+    page = request.args.get('page', 1, type=int)
+    c = request.args.get('c', None, type=int)
+    categories = ProductCategory.query.all()
+    if c:
+        category = ProductCategory.query.get(c)
+        ps = Product.query.filter_by(category=category).paginate(page=page, per_page=50)
+    else:
+        ps = Product.query.order_by(Product.title).paginate(page=page, per_page=50)
+    return render_template('admin/product.html', products=ps, categories=categories)
 
 
 @admin.route("/admin/product/new", methods=["GET", "POST"])
 @login_required
 def admin_new_product():
-
     uac_check('admin.product.new')
+    form = AdminCreateProductForm()
+    form.categories.choices = [(c.id, c.description) for c in ProductCategory.query.all()]
+    if form.validate_on_submit():
+        p = Product(
+            title=form.title.data,
+            description=form.description.data,
+            quantity=form.quantity.data,
+            price=form.price.data,
+            expect_stock_quantity=form.expect_stock_quantity.data,
+            flag_out_of_stock=form.flag_out_of_stock.data,
+            expect_restock_date=form.expect_restock_date.data,
+            category=ProductCategory.query.get(form.categories.data)
+        )
+        app_db.session.add(p)
+        app_db.session.commit()
+        flash("Product Created", "success")
+        return redirect(url_for('admin.admin_edit_product', pid=p.id))
+    else:
+        return render_template('admin/product_create.html', form=form)
+
+
+@admin.route("/admin/category/new", methods=["GET", "POST"])
+@login_required
+def admin_new_category():
+#    uac_check('admin.category.new'  # change back to this once we've updated the model
+    uac_check('admin.product.new')
+    pass
+
+
+@admin.route("/admin/product/<int:pid>/delete", methods=["GET", "POST"])
+@login_required
+def admin_delete_product(pid):
+    uac_check('admin.product.delete')
     pass
 
 
 @admin.route("/admin/product/<int:pid>", methods=["GET", "POST"])
 @login_required
-def admin_edit_product():
+def admin_edit_product(pid):
     uac_check('admin.product.edit')
-    pass
+    product = Product.query.get(pid)
+    form = AdminEditProductForm()
+    form.categories.choices = [(c.id, c.description) for c in ProductCategory.query.all()]
+    if form.validate_on_submit():
+        product.title = form.title.data
+        product.description = form.description.data
+        product.quantity = form.quantity.data
+        product.price = form.price.data
+        product.expect_stock_quantity = form.expect_stock_quantity.data
+        product.flag_out_of_stock = form.flag_out_of_stock.data
+        product.expect_restock_date = form.expect_restock_date.data
+        product.category = ProductCategory.query.get(form.categories.data)
+        app_db.session.commit()
+        flash("Product Updated", "success")
+        return redirect(url_for('admin.admin_edit_product', pid=product.id))
+    else:
+        form.title.data = product.title
+        form.description.data = product.description
+        form.quantity.data = product.quantity
+        form.price.data = product.price
+        form.expect_stock_quantity.data = product.expect_stock_quantity
+        form.expect_restock_date.data = product.expect_restock_date
+        form.categories.data = product.category.id
+        return render_template('admin/product_edit.html', form=form)
 
 
 @admin.route("/admin/product/<int:pid>/review", methods=["GET", "POST"])

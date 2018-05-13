@@ -1,0 +1,73 @@
+{% extends "layout_new.html" %}
+{% block content_main %}
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Category</th>
+                <th>Product</th>
+                <th>Price</th>
+                <th>Stock</th>
+                <th>Baseline</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for product in products.items %}
+        <tr>
+            <td><span class="badge badge-dark">{{ product.category.description }}</span></td>
+            <td><a href="{{ url_for('admin.admin_edit_product', pid=product.id) }}">{{ product.title }}</a></td>
+            <td>${{ '{:,.2f}'.format(product.price) }}</td>
+            <td>{{ product.quantity }}
+                {% if product.quantity < product.expect_stock_quantity %}<span class="badge badge-pill badge-danger">!</span>{% endif %}
+                {% if product.quantity > (product.expect_stock_quantity * 2) %}<span class="badge badge-pill badge-warning">!</span>{% endif %}
+            </td>
+            <td>{{ product.expect_stock_quantity }}</td>
+            <td>
+                <div class="btn-group btn-group-sm">
+                    <button type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown">Actions</button>
+                    <div class="dropdown-menu">
+                        <a class="dropdown-item" href="{{ url_for('admin.admin_edit_product', pid=product.id) }}">Edit Product</a>
+                        <a class="dropdown-item" href="{{ url_for('admin.admin_edit_product_review', pid=product.id) }}">View Reviews</a>
+                        <a class="dropdown-item" href="{{ url_for('admin.admin_edit_product_rating', pid=product.id) }}">View Ratings</a>
+                        <a class="dropdown-item" href="{{ url_for('admin.admin_delete_product', pid=product.id) }}">Delete Product</a>
+                    </div>
+                </div>
+            </td>
+        </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    {% for page_num in products.iter_pages(left_edge=1, right_edge=1, left_current=1, right_current=2) %}
+        {% if page_num %}
+            {% if products.page == page_num %}
+                <a class="btn btn-info mb-4" href="{{url_for('admin.admin_product', page=page_num)}}">{{page_num}}</a>
+            {% else %}
+                <a class="btn btn-outline-info mb-4" href="{{url_for('admin.admin_product', page=page_num)}}">{{page_num}}</a>
+            {% endif %}
+        {% else %}
+            .
+        {% endif %}
+    {% endfor %}
+{% endblock content_main %}
+
+{% block content_left %}
+    <div class="content-section">
+        <h6 class="mx-auto">Category Filter</h6>
+        <div class="list-group">
+            <a href="{{ url_for('admin.admin_product') }}" class="list-group-item list-group-item-action">All</a>
+            {% for category in categories %}
+                <a href="{{ url_for('admin.admin_product', c=category.id) }}" class="list-group-item list-group-item-action">{{ category.description }}</a>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock content_left %}
+
+{% block content_right %}
+    <div class="content-section">
+        <div class="list-group">
+            <a href="{{ url_for('admin.admin_index') }}" class="list-group-item list-group-item-action">Back</a>
+            <a href="{{ url_for('admin.admin_new_product') }}" class="list-group-item list-group-item-action">New Product</a>
+            <a href="{{ url_for('admin.admin_new_category') }}" class="list-group-item list-group-item-action">New Category</a>
+        </div>
+    </div>
+{% endblock content_right %}
