@@ -1,0 +1,30 @@
+{% extends "layout_new.html" %}
+{% block content_main %}
+    <ul class="list-group">
+    {% for product in products.items %}
+        <li class="list-group-item">
+            <span class="badge badge-dark">
+                <a href="{{ url_for('admin.admin_product', c=product.category.id) }}" {{ product.category.description }}
+            </span>
+            <p>{{ product.title }}</p>
+            <p>{{ product.description }}</p>
+            <p>List Price: ${{ '{:,.2f}'.format(product.price) }} - Stock: {{ product.quantity }} - Expected Stock: {{ product.expect_stock_quantity }}</p>
+            <p>
+                <a class="btn btn-small btn-info" href="{{ url_for('admin.admin_edit_product', pid=product.id) }}">Edit</a>
+                <a class="btn btn-small btn-danger" href="{{ url_for('admin.admin_delete_product', pid=product.id) }}">Delete</a>
+            </p>
+        </li>
+    {% endfor %}
+    </ul>
+    {% for page_num in products.iter_pages(left_edge=1, right_edge=1, left_current=1, right_current=2) %}
+        {% if page_num %}
+            {% if products.page == page_num %}
+                <a class="btn btn-info mb-4" href="{{url_for('admin.admin_product', page=page_num)}}">{{page_num}}</a>
+            {% else %}
+                <a class="btn btn-outline-info mb-4" href="{{url_for('admin.admin_product', page=page_num)}}">{{page_num}}</a>
+            {% endif %}
+        {% else %}
+            .
+        {% endif %}
+    {% endfor %}
+{% endblock content_main %}

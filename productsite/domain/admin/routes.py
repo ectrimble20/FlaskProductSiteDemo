@@ -1,6 +1,7 @@
 from flask import Blueprint, render_template, url_for, flash, redirect, request, current_app, abort
 from flask_login import login_required, current_user, login_user, logout_user
 from productsite.domain.users.models import User, UserAccessRoutes
+from productsite.domain.products.models import ProductCategory, Product
 from productsite.domain.admin.forms import AdminCreateUserForm, AdminEditUserForm, AdminEditUserUACForm
 from productsite import app_crypt
 from productsite.database import app_db
@@ -118,7 +119,14 @@ def admin_uac_user(uid):
 @login_required
 def admin_product():
     uac_check('admin.product')
-    pass
+    page = request.args.get('page', 1, type=int)
+    c = request.args.get('c', None, type=int)
+    if c:
+        category = ProductCategory.query.get(c)
+        ps = Product.query.filter_by(category=category).paginate(page=page, per_page=50)
+    else:
+        ps = Product.query.order_by(Product.title).paginate(page=page, per_page=50)
+    return render_template('admin/product.html', products=ps)
 
 
 @admin.route("/admin/product/new", methods=["GET", "POST"])
@@ -126,6 +134,13 @@ def admin_product():
 def admin_new_product():
 
     uac_check('admin.product.new')
+    pass
+
+
+@admin.route("/admin/product/<int:pid>/delete", methods=["GET", "POST"])
+@login_required
+def admin_delete_product():
+    uac_check('admin.product.delete')
     pass
 
 
