@@ -10,7 +10,7 @@ admin = Blueprint('admin', __name__)
 
 def uac_check(path_check):
     for uac in current_user.uac:
-        if uac.allow == path_check:
+        if uac.route == path_check:
             return
     abort(403)
 
