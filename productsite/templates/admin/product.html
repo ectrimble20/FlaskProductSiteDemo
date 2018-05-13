@@ -26,8 +26,10 @@
                 <div class="btn-group btn-group-sm">
                     <button type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown">Actions</button>
                     <div class="dropdown-menu">
-                        <a class="dropdown-item" href="{{ url_for('admin.admin_edit_product', pid=product.id) }}">Edit</a>
-                        <a class="dropdown-item" href="{{ url_for('admin.admin_delete_product', pid=product.id) }}">Delete</a>
+                        <a class="dropdown-item" href="{{ url_for('admin.admin_edit_product', pid=product.id) }}">Edit Product</a>
+                        <a class="dropdown-item" href="{{ url_for('admin.admin_edit_product_review', pid=product.id) }}">View Reviews</a>
+                        <a class="dropdown-item" href="{{ url_for('admin.admin_edit_product_rating', pid=product.id) }}">View Ratings</a>
+                        <a class="dropdown-item" href="{{ url_for('admin.admin_delete_product', pid=product.id) }}">Delete Product</a>
                     </div>
                 </div>
             </td>
@@ -50,11 +52,22 @@
 
 {% block content_left %}
     <div class="content-section">
-        <h6>Category Filter</h6>
+        <h6 class="mx-auto">Category Filter</h6>
         <div class="list-group">
+            <a href="{{ url_for('admin.admin_product') }}" class="list-group-item list-group-item-action">All</a>
             {% for category in categories %}
                 <a href="{{ url_for('admin.admin_product', c=category.id) }}" class="list-group-item list-group-item-action">{{ category.description }}</a>
             {% endfor %}
         </div>
     </div>
 {% endblock content_left %}
+
+{% block content_right %}
+    <div class="content-section">
+        <div class="list-group">
+            <a href="{{ url_for('admin.admin_index') }}" class="list-group-item list-group-item-action">Back</a>
+            <a href="{{ url_for('admin.admin_new_product') }}" class="list-group-item list-group-item-action">New Product</a>
+            <a href="{{ url_for('admin.admin_new_category') }}" class="list-group-item list-group-item-action">New Category</a>
+        </div>
+    </div>
+{% endblock content_right %}

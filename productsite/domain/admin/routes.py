@@ -133,7 +133,14 @@ def admin_product():
 @admin.route("/admin/product/new", methods=["GET", "POST"])
 @login_required
 def admin_new_product():
+    uac_check('admin.product.new')
+    pass
 
+
+@admin.route("/admin/category/new", methods=["GET", "POST"])
+@login_required
+def admin_new_category():
+#    uac_check('admin.category.new'  # change back to this once we've updated the model
     uac_check('admin.product.new')
     pass
 
