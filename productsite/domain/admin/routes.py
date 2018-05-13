@@ -198,7 +198,7 @@ def admin_edit_product(pid):
         form.price.data = product.price
         form.expect_stock_quantity.data = product.expect_stock_quantity
         form.expect_restock_date.data = product.expect_restock_date
-        form.categories = product.category
+        form.categories.data = product.category
         return render_template('admin/product_edit.html', form=form)
 
 
