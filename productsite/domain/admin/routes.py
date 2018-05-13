@@ -25,7 +25,7 @@ def admin_index():
 @admin.route("/admin/user", methods=["GET"])
 @login_required
 def admin_user():
-    uac_check('admin-user')
+    uac_check('admin.user')
     user_list = User.query.all()
     return render_template('admin/user.html', users=user_list)
 
@@ -33,7 +33,7 @@ def admin_user():
 @admin.route("/admin/user/new", methods=["GET", "POST"])
 @login_required
 def admin_new_user():
-    uac_check('admin-user')
+    uac_check('admin.user.new')
     form = AdminCreateUserForm()
     if form.validate_on_submit():
         # we need to ensure that either admin or CS is checked
@@ -59,7 +59,7 @@ def admin_new_user():
 @admin.route("/admin/user/<int:uid>", methods=["GET", "POST"])
 @login_required
 def admin_edit_user(uid):
-    uac_check('admin.user')
+    uac_check('admin.user.edit')
     user = User.query.get_or_404(uid)
     form = AdminEditUserForm()
     if form.validate_on_submit():
