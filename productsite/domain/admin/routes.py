@@ -200,7 +200,7 @@ def admin_edit_product(pid):
         form.expect_stock_quantity.data = product.expect_stock_quantity
         form.expect_restock_date.data = product.expect_restock_date
         form.categories = product.category
-        render_template('admin/product_edit.html', form=form)
+        return render_template('admin/product_edit.html', form=form)
 
 
 @admin.route("/admin/product/<int:pid>/review", methods=["GET", "POST"])
