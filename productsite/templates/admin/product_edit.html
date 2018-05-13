@@ -6,7 +6,7 @@
                 <fieldset class="form-group">
                     <legend class="border-bottom mb-4">Update Product</legend>
                     <div class="form-group">
-                        {{ form.categories.label(class="form-control-label") }}
+                        {{ form.categories.description(class="form-control-label") }}
                         {% if form.categories.errors %}
                             {{ form.categories(class="form-control form-control-lg is-invalid") }}
                             <div class="invalid-feedback">
