@@ -73,5 +73,5 @@ class AdminEditProductForm(FlaskForm):
 
 
 class AdminCreateProductCategoryForm(FlaskForm):
-    description = StringField('Description', validators=[DataRequired])
+    description = StringField('Description', validators=[DataRequired()])
     submit = SubmitField('Create Product Category')

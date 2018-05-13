@@ -168,7 +168,7 @@ def admin_new_category():
         app_db.session.add(category)
         app_db.session.commit()
         flash("New category added", "success")
-        return redirect(url_for('admin.product'))
+        return redirect(url_for('admin.admin_product'))
     else:
         return render_template('admin/category_create.html', form=form)
 
