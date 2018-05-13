@@ -2,7 +2,8 @@ from flask import Blueprint, render_template, url_for, flash, redirect, request,
 from flask_login import login_required, current_user, login_user, logout_user
 from productsite.domain.users.models import User, UserAccessRoutes
 from productsite.domain.products.models import ProductCategory, Product
-from productsite.domain.admin.forms import AdminCreateUserForm, AdminEditUserForm, AdminEditUserUACForm
+from productsite.domain.admin.forms import (AdminCreateUserForm, AdminEditUserForm, AdminEditUserUACForm,
+                                            AdminCreateProductForm, AdminEditProductForm)
 from productsite import app_crypt
 from productsite.database import app_db
 
@@ -134,7 +135,25 @@ def admin_product():
 @login_required
 def admin_new_product():
     uac_check('admin.product.new')
-    pass
+    form = AdminCreateProductForm()
+    if form.validate_on_submit():
+        p = Product(
+            title=form.title.data,
+            description=form.description.data,
+            quantity=form.quantity.data,
+            price=form.price.data,
+            expect_stock_quantity=form.expect_stock_quantity.data,
+            flag_out_of_stock=form.flag_out_of_stock.data,
+            expect_restock_date=form.expect_restock_date.data,
+            category=ProductCategory.query.get(form.categories.data)
+        )
+        app_db.session.add(p)
+        app_db.session.commit()
+        flash("Product Created", "success")
+        return redirect(url_for('admin.admin_edit_product', product_id=p.id))
+    else:
+        form.categories = ProductCategory.query.all()
+        render_template('admin/product_create.html', form=form)
 
 
 @admin.route("/admin/category/new", methods=["GET", "POST"])
@@ -147,7 +166,7 @@ def admin_new_category():
 
 @admin.route("/admin/product/<int:pid>/delete", methods=["GET", "POST"])
 @login_required
-def admin_delete_product():
+def admin_delete_product(pid):
     uac_check('admin.product.delete')
     pass
 
@@ -156,7 +175,32 @@ def admin_delete_product():
 @login_required
 def admin_edit_product():
     uac_check('admin.product.edit')
-    pass
+    product = Product.query.get(pid)
+    form = AdminEditProductForm()
+    if form.validate_on_submit():
+        p = Product(
+            title=form.title.data,
+            description=form.description.data,
+            quantity=form.quantity.data,
+            price=form.price.data,
+            expect_stock_quantity=form.expect_stock_quantity.data,
+            flag_out_of_stock=form.flag_out_of_stock.data,
+            expect_restock_date=form.expect_restock_date.data,
+            category=ProductCategory.query.get(form.categories.data)
+        )
+        app_db.session.add(p)
+        app_db.session.commit()
+        flash("Product Updated", "success")
+        return redirect(url_for('admin.admin_edit_product', product_id=p.id))
+    else:
+        form.title.data = product.title
+        form.description.data = product.description
+        form.quantity.data = product.quantity
+        form.price.data = product.price
+        form.expect_stock_quantity.data = product.expect_stock_quantity
+        form.expect_restock_date.data = product.expect_restock_date
+        form.categories = product.category
+        render_template('admin/product_edit.html', form=form)
 
 
 @admin.route("/admin/product/<int:pid>/review", methods=["GET", "POST"])
