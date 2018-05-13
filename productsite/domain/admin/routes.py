@@ -70,7 +70,6 @@ def admin_edit_user(uid):
         user.last_name = form.last_name.data
         user.flag_admin = form.is_admin.data
         user.flag_cs = form.is_cs.data
-        app_db.session.add(user)
         app_db.session.commit()
         flash("User Account Updated Successfully", "success")
         return redirect(url_for('admin.admin_user'))
@@ -107,7 +106,6 @@ def admin_uac_user(uid):
             if u.id in form.uac_options.data:
                 user_uac.append(u)
         user.uac = user_uac
-        app_db.session.add(user)
         app_db.session.commit()
         flash("User Access Updated", "success")
         return redirect(url_for('admin.admin_user'))
@@ -187,10 +185,9 @@ def admin_edit_product(pid):
         product.flag_out_of_stock = form.flag_out_of_stock.data,
         product.expect_restock_date = form.expect_restock_date.data,
         product.category = ProductCategory.query.get(form.categories.data)
-        app_db.session.add(p)
         app_db.session.commit()
         flash("Product Updated", "success")
-        return redirect(url_for('admin.admin_edit_product', pid=p.id))
+        return redirect(url_for('admin.admin_edit_product', pid=product.id))
     else:
         form.title.data = product.title
         form.description.data = product.description
