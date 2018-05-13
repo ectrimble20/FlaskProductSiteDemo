@@ -20,6 +20,7 @@ def login():
         if user and app_crypt.check_password_hash(user.password, form.password.data):
             login_user(user, remember=form.remember.data)
             next_page = request.args.get('next')
+            # per flask-login docs, we'll need to add in a safe check on next to be safe from open redirects
             return redirect(next_page) if next_page else redirect(url_for('index.index_page'))
         else:
             flash('Login Failed!', 'danger')

@@ -29,10 +29,10 @@
 							<a class="nav-item nav-link" href="#">My Cart</a>
 							<a class="nav-item nav-link" href="{{ url_for('users.view_account') }}">My Account</a>
 							<a class="nav-item nav-link" href="{{ url_for('users.logout') }}">Logout</a>
-                            {% if current_user.is_admin == True %}
+                            {% if current_user.flag_admin %}
                             <a class="nav-item nav-link" href="{{ url_for('admin.admin_index') }}">Admin</a>
                             {% endif %}
-                            {% if current_user.is_cs == True and current_user.is_admin == False %}
+                            {% if current_user.flag_cs and not current_user.flag_admin %}
                             <a class="nav-item nav-link" href="{{ url_for('admin.admin_index') }}">Customer Service</a>
                             {% endif %}
 						{% else %}
