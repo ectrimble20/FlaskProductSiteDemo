@@ -17,7 +17,10 @@
             <td><span class="badge badge-dark">{{ product.category.description }}</span></td>
             <td><a href="{{ url_for('admin.admin_edit_product', pid=product.id) }}">{{ product.title }}</a></td>
             <td>${{ '{:,.2f}'.format(product.price) }}</td>
-            <td>{{ product.quantity }}</td>
+            <td>{{ product.quantity }}
+                {% if product.quantity <= product.expect_stock_quantity %}<span class="badge badge-pill badge-danger">low stock</span>{% endif %}
+                {% if product.quantity > (product.expect_stock_quantity * 2) %}<span class="badge badge-pill badge-warning">over stock</span>{% endif %}
+            </td>
             <td>{{ product.expect_stock_quantity }}</td>
             <td>
                 <div class="btn-group btn-group-sm">
