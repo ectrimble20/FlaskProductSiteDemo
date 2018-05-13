@@ -178,16 +178,14 @@ def admin_edit_product(pid):
     product = Product.query.get(pid)
     form = AdminEditProductForm()
     if form.validate_on_submit():
-        p = Product(
-            title=form.title.data,
-            description=form.description.data,
-            quantity=form.quantity.data,
-            price=form.price.data,
-            expect_stock_quantity=form.expect_stock_quantity.data,
-            flag_out_of_stock=form.flag_out_of_stock.data,
-            expect_restock_date=form.expect_restock_date.data,
-            category=ProductCategory.query.get(form.categories.data)
-        )
+        product.title = form.title.data,
+        product.description = form.description.data,
+        product.quantity = form.quantity.data,
+        product.price = form.price.data,
+        product.expect_stock_quantity = form.expect_stock_quantity.data,
+        product.flag_out_of_stock = form.flag_out_of_stock.data,
+        product.expect_restock_date = form.expect_restock_date.data,
+        product.category = ProductCategory.query.get(form.categories.data)
         app_db.session.add(p)
         app_db.session.commit()
         flash("Product Updated", "success")
