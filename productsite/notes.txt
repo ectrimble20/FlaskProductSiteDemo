@@ -99,3 +99,11 @@ of UAC routes to a user.
 We can then use a relational table to assign route ID + user ID
 
 This will require me to rebuild the user DB table, but I think it'll make things easier to implement in the future.
+
+I've made good progress with the above table rebuilds.  So far I have a working access control, I also have working user
+and product administration.  Though I need removal, ban and a few of the minor features to add in.
+
+I also need to implement admin checks into the main menu, but that's not a big deal.  I also have a few other tweaks to
+make regarding formatting and what not but again, this is just a demo product for coding purposes, not a real product
+so it really doesn't matter if it looks terrible.
+
