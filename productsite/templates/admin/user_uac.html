@@ -1,0 +1,35 @@
+{% extends "layout_new.html" %}
+{% block content_main %}
+    <div class="content-section">
+        <form method="POST" action="">
+            {{ form.hidden_tag() }}
+            <fieldset class="form-group">
+                <legend class="border-bottom mb-4">Admin - Edit User</legend>
+                {% if form.uac_options.errors %}
+                <div class="invalid-feedback">
+                    {% for error in form.first_name.errors %}
+                        <span>{{ error }}</span>
+                    {% endfor %}
+                </div>
+                {% endif %}
+                {% for opt in form.uac_options %}
+                    <div class="form-check">
+                        {{ opt(class="form-check-input") }}
+                        {{ opt.label(class="form-check-label") }}
+                    </div>
+                {% endfor %}
+            </fieldset>
+            <div class="form-group">
+                {{ form.submit(class="btn btn-outline-info") }}
+            </div>
+        </form>
+    </div>
+{% endblock content_main %}
+
+{% block content_left %}
+    <div class="content-section">
+        <div class="list-group">
+            <a href="{{ url_for('admin.admin_user') }}" class="list-group-item list-group-item-action">Back</a>
+        </div>
+    </div>
+{% endblock content_left %}

@@ -15,25 +15,13 @@ if __name__ == '__main__':
     with app.app_context():
         app_db.drop_all()
         # load the models we need to build here
-        from productsite.domain.users.models import User, UserAccessControl, UserType
+        from productsite.domain.users.models import User, UserAccessRoutes, uac
         from productsite.domain.products.models import Product, ProductCategory, cart
         from productsite.domain.reviews.models import Review
         from productsite.domain.tickets.models import Ticket, TicketMessage
         from productsite.domain.orders.models import CustomerOrder, order_part
         app_db.create_all()
-        # generate placeholders
-        t1 = UserType(
-            type="Customer"
-        )
-        t2 = UserType(
-            type="Admin"
-        )
-        t3 = UserType(
-            type="CS Rep"
-        )
-        app_db.session.add(t1)
-        app_db.session.add(t2)
-        app_db.session.add(t3)
+        # generate predefined stuff
         pc1 = ProductCategory(
             description="Coding"
         )
@@ -46,5 +34,16 @@ if __name__ == '__main__':
         app_db.session.add(pc1)
         app_db.session.add(pc2)
         app_db.session.add(pc3)
+        routes = [
+            "admin", "admin.user", "admin.user.new", "admin.user.edit", "admin.user.ban", "admin.user.uac",
+            "admin.product", "admin.product.new", "admin.product.edit", "admin.product.delete",
+            "admin.review.edit", "admin.rating.reset", "admin.cs.ticket.view", "admin.cs.ticket.work",
+            "admin.cs.order.view", "admin.cs.order.work"
+        ]
+        for r in routes:
+            ua = UserAccessRoutes(
+                route=r
+            )
+            app_db.session.add(ua)
         # write changes
         app_db.session.commit()

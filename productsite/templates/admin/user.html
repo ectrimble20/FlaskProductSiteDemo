@@ -1,0 +1,33 @@
+{% extends "layout_new.html" %}
+{% block content_main %}
+    <h1>Admin - User Control</h1>
+    {% for user in users %}
+        <div class="card">
+            <div class="card-header">{{ user.first_name }} {{ user.last_name }} - {{ user.email }}</div>
+            <div class="card-content">User Registered: {{ user.create_date.strftime('%Y-%m-%d') }}</div>
+            <div class="card-content pt-2 pb-2">
+                <a href="{{ url_for('admin.admin_edit_user', uid=user.id) }}" class="btn btn-info btn-small">Edit</a>
+                <a href="{{ url_for('admin.admin_uac_user', uid=user.id) }}" class="btn btn-info btn-small">UAC</a>
+                <a href="{{ url_for('admin.admin_ban_user', uid=user.id) }}" class="btn btn-warning btn-small">Ban</a>
+            </div>
+        </div>
+    {% endfor %}
+{% endblock content_main %}
+
+{% block content_right %}
+    <div class="content-section">
+        <div class="list-group">
+            <a href="{{ url_for('admin.admin_product') }}" class="list-group-item list-group-item-action">Product</a>
+            <a href="{{ url_for('admin.admin_cs') }}" class="list-group-item list-group-item-action">Customer Service</a>
+        </div>
+    </div>
+{% endblock content_right %}
+
+{% block content_left %}
+    <div class="content-section">
+        <div class="list-group">
+            <a href="{{ url_for('admin.admin_index') }}" class="list-group-item list-group-item-action">Back</a>
+            <a href="{{ url_for('admin.admin_new_user') }}" class="list-group-item list-group-item-action">Create New User</a>
+        </div>
+    </div>
+{% endblock content_left %}
