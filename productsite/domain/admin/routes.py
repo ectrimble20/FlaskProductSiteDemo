@@ -184,7 +184,7 @@ def admin_edit_product(pid):
         product.expect_stock_quantity = form.expect_stock_quantity.data,
         product.flag_out_of_stock = form.flag_out_of_stock.data,
         product.expect_restock_date = form.expect_restock_date.data,
-        product.category = ProductCategory.query.get(form.categories.data)
+        product.category = ProductCategory.query.get(form.categories.data).first()
         app_db.session.commit()
         flash("Product Updated", "success")
         return redirect(url_for('admin.admin_edit_product', pid=product.id))
