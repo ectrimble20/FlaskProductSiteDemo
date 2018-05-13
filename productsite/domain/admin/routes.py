@@ -173,7 +173,7 @@ def admin_delete_product(pid):
 
 @admin.route("/admin/product/<int:pid>", methods=["GET", "POST"])
 @login_required
-def admin_edit_product():
+def admin_edit_product(pid):
     uac_check('admin.product.edit')
     product = Product.query.get(pid)
     form = AdminEditProductForm()
