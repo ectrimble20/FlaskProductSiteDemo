@@ -121,12 +121,13 @@ def admin_product():
     uac_check('admin.product')
     page = request.args.get('page', 1, type=int)
     c = request.args.get('c', None, type=int)
+    categories = ProductCategory.query.all()
     if c:
         category = ProductCategory.query.get(c)
         ps = Product.query.filter_by(category=category).paginate(page=page, per_page=50)
     else:
         ps = Product.query.order_by(Product.title).paginate(page=page, per_page=50)
-    return render_template('admin/product.html', products=ps)
+    return render_template('admin/product.html', products=ps, categories=categories)
 
 
 @admin.route("/admin/product/new", methods=["GET", "POST"])

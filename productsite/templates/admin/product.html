@@ -47,3 +47,14 @@
         {% endif %}
     {% endfor %}
 {% endblock content_main %}
+
+{% block content_left %}
+    <div class="content-section">
+        <h6>Category Filter</h6>
+        <div class="list-group">
+            {% for category in categories %}
+                <a href="{{ url_for('admin.admin_product', c=category.id) }}" class="list-group-item list-group-item-action">{{ category.description }}</a>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock content_left %}
