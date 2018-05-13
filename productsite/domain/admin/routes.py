@@ -136,6 +136,7 @@ def admin_product():
 def admin_new_product():
     uac_check('admin.product.new')
     form = AdminCreateProductForm()
+    form.categories.choices = [(c.id, c.description) for c in ProductCategory.query.all()]
     if form.validate_on_submit():
         p = Product(
             title=form.title.data,
@@ -152,7 +153,6 @@ def admin_new_product():
         flash("Product Created", "success")
         return redirect(url_for('admin.admin_edit_product', product_id=p.id))
     else:
-        form.categories.choices = ProductCategory.query.all()
         render_template('admin/product_create.html', form=form)
 
 
@@ -177,6 +177,7 @@ def admin_edit_product(pid):
     uac_check('admin.product.edit')
     product = Product.query.get(pid)
     form = AdminEditProductForm()
+    form.categories.choices = [(c.id, c.description) for c in ProductCategory.query.all()]
     if form.validate_on_submit():
         product.title = form.title.data,
         product.description = form.description.data,
