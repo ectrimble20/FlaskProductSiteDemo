@@ -8,25 +8,24 @@ from productsite.database import app_db
 admin = Blueprint('admin', __name__)
 
 
-def uac_check(user_id, path_check):
-    """
-    check = UserAccessControl.query.filter_by(user_id=user_id, allow=path_check).first()
-    if not check:
-        abort(403)
-    """
+def uac_check(path_check):
+    for uac in current_user.uac:
+        if uac.allow == path_check:
+            return
+    abort(403)
 
 
 @admin.route("/admin", methods=["GET"])
 @login_required
 def admin_index():
-    uac_check(current_user.id, 'admin')
+    uac_check('admin')
     return render_template('admin/admin.html', title="Administrative Home")
 
 
 @admin.route("/admin/user", methods=["GET"])
 @login_required
 def admin_user():
-    uac_check(current_user.id, 'admin-user')
+    uac_check('admin-user')
     user_list = User.query.all()
     return render_template('admin/user.html', users=user_list)
 
@@ -34,7 +33,7 @@ def admin_user():
 @admin.route("/admin/user/new", methods=["GET", "POST"])
 @login_required
 def admin_new_user():
-    uac_check(current_user.id, 'admin-user')
+    uac_check('admin-user')
     form = AdminCreateUserForm()
     if form.validate_on_submit():
         # we need to ensure that either admin or CS is checked
@@ -60,7 +59,7 @@ def admin_new_user():
 @admin.route("/admin/user/<int:uid>", methods=["GET", "POST"])
 @login_required
 def admin_edit_user(uid):
-    uac_check(current_user.id, 'admin-user')
+    uac_check('admin.user')
     user = User.query.get_or_404(uid)
     form = AdminEditUserForm()
     if form.validate_on_submit():
@@ -86,14 +85,14 @@ def admin_edit_user(uid):
 @admin.route("/admin/user/<int:uid>/ban", methods=["POST"])
 @login_required
 def admin_ban_user(uid):
-    uac_check(current_user.id, 'admin-user-ban')
+    uac_check('admin.user.ban')
     return redirect(url_for('admin.admin_user'))
 
 
 @admin.route("/admin/user/<int:uid>/uac", methods=["GET", "POST"])
 @login_required
 def admin_uac_user(uid):
-    uac_check(current_user.id, 'admin-user-uac')
+    uac_check('admin.user.uac')
     user = User.query.get(uid)
     form = AdminEditUserUACForm()
     form.uac_options.choices = [(u.id, u.route) for u in UserAccessRoutes.query.all()]
@@ -118,7 +117,7 @@ def admin_uac_user(uid):
 @admin.route("/admin/product", methods=["GET", "POST"])
 @login_required
 def admin_product():
-    uac_check(current_user.id, 'admin-product')
+    uac_check('admin.product')
     pass
 
 
@@ -126,63 +125,63 @@ def admin_product():
 @login_required
 def admin_new_product():
 
-    uac_check(current_user.id, 'admin-product-new')
+    uac_check('admin.product.new')
     pass
 
 
 @admin.route("/admin/product/<int:pid>", methods=["GET", "POST"])
 @login_required
 def admin_edit_product():
-    uac_check(current_user.id, 'admin-product')
+    uac_check('admin.product.edit')
     pass
 
 
 @admin.route("/admin/product/<int:pid>/review", methods=["GET", "POST"])
 @login_required
 def admin_edit_product_review():
-    uac_check(current_user.id, 'admin-product-review')
+    uac_check('admin.review.edit')
     pass
 
 
 @admin.route("/admin/product/<int:pid>/rating", methods=["GET", "POST"])
 @login_required
 def admin_edit_product_rating():
-    uac_check(current_user.id, 'admin-product-rating')
+    uac_check('admin.rating.reset')
     pass
 
 
 @admin.route("/admin/cs", methods=["GET", "POST"])
 @login_required
 def admin_cs():
-    uac_check(current_user.id, 'admin-cs')
+    uac_check('admin.cs')
     pass
 
 
 @admin.route("/admin/cs/ticket", methods=["GET", "POST"])
 @login_required
 def admin_cs_ticket():
-    uac_check(current_user.id, 'admin-cs-ticket')
+    uac_check('admin.cs.ticket.view')
     pass
 
 
 @admin.route("/admin/cs/ticket/<int:tid>", methods=["GET", "POST"])
 @login_required
 def admin_cs_work_ticket():
-    uac_check(current_user.id, 'admin-cs-ticket-work')
+    uac_check('admin.cs.ticket.work')
     pass
 
 
 @admin.route("/admin/cs/order", methods=["GET", "POST"])
 @login_required
 def admin_cs_order():
-    uac_check(current_user.id, 'admin-cs-order')
+    uac_check('admin.cs.order.view')
     pass
 
 
 @admin.route("/admin/cs/order/<int:oid>", methods=["GET", "POST"])
 @login_required
 def admin_cs_work_order():
-    uac_check(current_user.id, 'admin-cs-order-work')
+    uac_check('admin.cs.order.work')
     pass
 
 
