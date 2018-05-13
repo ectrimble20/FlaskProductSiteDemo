@@ -70,3 +70,8 @@ class AdminEditProductForm(FlaskForm):
     expect_restock_date = DateField('Expected Restock Date', format="%Y-%m-%d")
     categories = SelectField("Category", coerce=int, validators=[DataRequired()])
     submit = SubmitField('Update Product')
+
+
+class AdminCreateProductCategory(FlaskForm):
+    description = StringField('Description', validators=[DataRequired])
+    submit = SubmitField('Create Product Category')
