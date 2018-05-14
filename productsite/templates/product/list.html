@@ -14,7 +14,7 @@
         {% for product in products.items %}
         <tr>
             <td><span class="badge badge-dark">{{ product.category.description }}</span></td>
-            <td><a href="{{ url_for('product.show_product', product_id=product.id) }}">{{ product.title }}</a></td>
+            <td><a href="{{ url_for('products.show_product', product_id=product.id) }}">{{ product.title }}</a></td>
             <td>${{ '{:,.2f}'.format(product.price) }}</td>
             <td>{{ product.quantity }}</td>
             <td>
@@ -30,9 +30,9 @@
     {% for page_num in products.iter_pages(left_edge=1, right_edge=1, left_current=1, right_current=2) %}
         {% if page_num %}
             {% if products.page == page_num %}
-                <a class="btn btn-info mb-4" href="{{url_for('product.list_product', page=page_num)}}">{{page_num}}</a>
+                <a class="btn btn-info mb-4" href="{{url_for('products.list_product', page=page_num)}}">{{page_num}}</a>
             {% else %}
-                <a class="btn btn-outline-info mb-4" href="{{url_for('product.list_product', page=page_num)}}">{{page_num}}</a>
+                <a class="btn btn-outline-info mb-4" href="{{url_for('products.list_product', page=page_num)}}">{{page_num}}</a>
             {% endif %}
         {% else %}
             .
