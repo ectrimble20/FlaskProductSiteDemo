@@ -3,7 +3,8 @@ from flask_login import login_required, current_user, login_user, logout_user
 from productsite.domain.users.models import User, UserAccessRoutes
 from productsite.domain.products.models import ProductCategory, Product
 from productsite.domain.admin.forms import (AdminCreateUserForm, AdminEditUserForm, AdminEditUserUACForm,
-                                            AdminCreateProductForm, AdminEditProductForm)
+                                            AdminCreateProductForm, AdminEditProductForm,
+                                            AdminCreateProductCategoryForm)
 from productsite import app_crypt
 from productsite.database import app_db
 
@@ -157,9 +158,19 @@ def admin_new_product():
 @admin.route("/admin/category/new", methods=["GET", "POST"])
 @login_required
 def admin_new_category():
-#    uac_check('admin.category.new'  # change back to this once we've updated the model
+    #    uac_check('admin.category.new'  # change back to this once we've updated the model
     uac_check('admin.product.new')
-    pass
+    form = AdminCreateProductCategoryForm()
+    if form.validate_on_submit():
+        category = ProductCategory(
+            description=form.description.data
+        )
+        app_db.session.add(category)
+        app_db.session.commit()
+        flash("New category added", "success")
+        return redirect(url_for('admin.admin_product'))
+    else:
+        return render_template('admin/category_create.html', form=form)
 
 
 @admin.route("/admin/product/<int:pid>/delete", methods=["GET", "POST"])

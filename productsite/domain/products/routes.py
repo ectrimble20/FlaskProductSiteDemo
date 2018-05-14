@@ -15,19 +15,21 @@ def list_product():
     current_app.logger.debug("{} called".format(__name__))
     page = request.args.get('page', 1, type=int)
     c = request.args.get('c', None, type=int)
+    categories = ProductCategory.query.all()
     if c:
         category = ProductCategory.query.get(c)
         ps = Product.query.filter_by(category=category).paginate(page=page, per_page=10)
     else:
         ps = Product.query.order_by(Product.title).paginate(page=page, per_page=10)
-    return render_template('product/list.html', products=ps)
+    return render_template('product/list.html', products=ps, categories=categories)
 
 
 @products.route("/product/<int:product_id>", methods=["GET"])
 def show_product(product_id):
     current_app.logger.debug("{} called".format(__name__))
     pd = Product.query.get(product_id)
-    return render_template('product/view.html', product=pd)
+    categories = ProductCategory.query.all()
+    return render_template('product/view.html', product=pd, categories=categories)
 
 
 @products.route("/product/search/<string:search_by>", methods=["GET", "POST"])
