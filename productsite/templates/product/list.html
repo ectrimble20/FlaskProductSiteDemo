@@ -39,3 +39,15 @@
         {% endif %}
     {% endfor %}
 {% endblock content_main %}
+
+{% block content_left %}
+    <div class="content-section">
+        <h6 class="mx-auto">Categories</h6>
+        <div class="list-group">
+            <a href="{{ url_for('products.list_product') }}" class="list-group-item list-group-item-action">All</a>
+            {% for category in categories %}
+                <a href="{{ url_for('products.list_product', c=category.id) }}" class="list-group-item list-group-item-action">{{ category.description }}</a>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock content_left %}
