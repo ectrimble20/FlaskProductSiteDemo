@@ -16,13 +16,9 @@
 			</button>
 			<div class="collapse navbar-collapse" id="navbarToggle">
 				<div class="navbar-nav mr-auto">
-					<a class="nav-item nav-link" href="/product">Products<span class="badge badge-danger ml-2">5 new!</span></a>
+					<a class="nav-item nav-link" href="/product">Products</a>
 				</div>
 				<div class="navbar-nav m-auto">
-					<form class="form-inline" action="/product/search">
-					<input class="form-control mr-md-2" type="text" placeholder="Search Products...">
-					<button class="btn btn-info" type="submit">Search</button>
-					</form>
 					<!-- Navbar Right Side -->
 					<div class="navbar-nav">
 						{% if current_user.is_authenticated %}
@@ -66,11 +62,10 @@
 			<div class="col-md-3"></div>
 		</div>
 		<div class="row">
-			<div class="col-md-1"></div>
 			<div class="col-md-2 mh-100">
 				{% block content_left %}{% endblock content_left %}
 			</div>
-			<div class="col-md-6">
+			<div class="col-md-8">
 				<div class="content-section">
                     {% block breadcrumb %}{% endblock breadcrumb %}
                     {% block top_pagination %}{% endblock top_pagination %}
@@ -81,7 +76,6 @@
 			<div class="col-md-2 mh-100">
 				{% block content_right %}{% endblock content_right %}
 			</div>
-			<div class="col-md-1"></div>
 		</div>
     </div>
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
