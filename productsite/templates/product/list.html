@@ -1,26 +1,41 @@
 {% extends "layout_new.html" %}
 {% block content_main %}
-    {% for product in products.items %}
-        <article class="media content-section">
-          <div class="media-body">
-            <div class="article-metadata">
-                <a href="{{ url_for('products.list_product', c=product.category.id) }}"><span class="badge badge-secondary">{{ product.category.description }}</span></a>
-              <a class="mr-2" href="{{ url_for('products.show_product', product_id=product.id) }}">{{ product.title }}</a>
-            </div>
-            <p class="article-content">{{ product.description }}</p>
-            <p>${{ '{:,.2f}'.format(product.price) }} - Stock: {{ product.quantity }}</p>
-          </div>
-        </article>
-    {% endfor %}
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Category</th>
+                <th>Product</th>
+                <th>Price</th>
+                <th>Stock</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for product in products.items %}
+        <tr>
+            <td><span class="badge badge-dark">{{ product.category.description }}</span></td>
+            <td><a href="{{ url_for('product.show_product', product_id=product.id) }}">{{ product.title }}</a></td>
+            <td>${{ '{:,.2f}'.format(product.price) }}</td>
+            <td>{{ product.quantity }}</td>
+            <td>
+                <a href="#" class="btn btn-sm btn-info">Add To Cart</a>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="5">{{ product.description }}</td>
+        </tr>
+        {% endfor %}
+        </tbody>
+    </table>
     {% for page_num in products.iter_pages(left_edge=1, right_edge=1, left_current=1, right_current=2) %}
         {% if page_num %}
             {% if products.page == page_num %}
-            <a class="btn btn-info mb-4" href="{{url_for('products.list_product', page=page_num)}}">{{page_num}}</a>
+                <a class="btn btn-info mb-4" href="{{url_for('product.list_product', page=page_num)}}">{{page_num}}</a>
             {% else %}
-            <a class="btn btn-outline-info mb-4" href="{{url_for('products.list_product', page=page_num)}}">{{page_num}}</a>
+                <a class="btn btn-outline-info mb-4" href="{{url_for('product.list_product', page=page_num)}}">{{page_num}}</a>
             {% endif %}
         {% else %}
-            ...
+            .
         {% endif %}
     {% endfor %}
 {% endblock content_main %}
