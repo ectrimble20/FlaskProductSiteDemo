@@ -11,14 +11,9 @@
                 {{ macro.std_form_input(form.last_name) }}
                 {{ macro.std_form_input(form.password) }}
                 {{ macro.std_form_input(form.password_confirm) }}
-                {{ macro.std_form_submit(form.submit) }}
             </fieldset>
             {{ macro.std_form_submit(form.submit) }}
         </form>
     </div>
-    <div class="border-top pt-3">
-        <small class="text-muted">
-            Already Have An Account? <a class="ml-2" href="{{ url_for('users.login') }}">Sign In</a>
-        </small>
-    </div>
+    {{ macro.have_account() }}
 {% endblock content_main %}

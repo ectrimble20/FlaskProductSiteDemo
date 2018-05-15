@@ -1,63 +1,18 @@
 {% extends "layout_new.html" %}
+{% import "macros.html" as macro %}
 {% block content_main %}
     <div class="content-section">
         <form method="POST" action="">
             {{ form.hidden_tag() }}
             <fieldset class="form-group">
                 <legend class="border-bottom mb-4">Admin - Edit User</legend>
-                <div class="form-group">
-                    {{ form.email.label(class="form-control-label") }}
-                    {% if form.email.errors %}
-                        {{ form.email(class="form-control form-control-lg is-invalid") }}
-                        <div class="invalid-feedback">
-                            {% for error in form.email.errors %}
-                                <span>{{ error }}</span>
-                            {% endfor %}
-                        </div>
-                    {% else %}
-                        {{ form.email(class="form-control form-control-lg") }}
-                    {% endif %}
-                </div>
-                <div class="form-group">
-                    {{ form.first_name.label(class="form-control-label") }}
-
-                    {% if form.first_name.errors %}
-                        {{ form.first_name(class="form-control form-control-lg is-invalid") }}
-                        <div class="invalid-feedback">
-                            {% for error in form.first_name.errors %}
-                                <span>{{ error }}</span>
-                            {% endfor %}
-                        </div>
-                    {% else %}
-                        {{ form.first_name(class="form-control form-control-lg") }}
-                    {% endif %}
-                </div>
-                <div class="form-group">
-                    {{ form.last_name.label(class="form-control-label") }}
-
-                    {% if form.last_name.errors %}
-                        {{ form.last_name(class="form-control form-control-lg is-invalid") }}
-                        <div class="invalid-feedback">
-                            {% for error in form.last_name.errors %}
-                                <span>{{ error }}</span>
-                            {% endfor %}
-                        </div>
-                    {% else %}
-                        {{ form.last_name(class="form-control form-control-lg") }}
-                    {% endif %}
-                </div>
-                <div class="form-check">
-                    {{ form.is_admin(class="form-check-input") }}
-                    {{ form.is_admin.label(class="form-check-label") }}
-                </div>
-                <div class="form-check">
-                    {{ form.is_cs(class="form-check-input") }}
-                    {{ form.is_cs.label(class="form-check-label") }}
-                </div>
+                {{ macro.std_form_input(form.email) }}
+                {{ macro.std_form_input(form.first_name) }}
+                {{ macro.std_form_input(form.last_name) }}
+                {{ macro.std_form_check(form.is_admin) }}
+                {{ macro.std_form_check(form.is_cs) }}
             </fieldset>
-            <div class="form-group">
-                {{ form.submit(class="btn btn-outline-info") }}
-            </div>
+            {{ macro.std_form_input(form.submit) }}
         </form>
     </div>
 {% endblock content_main %}

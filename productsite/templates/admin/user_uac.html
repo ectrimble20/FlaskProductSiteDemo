@@ -1,4 +1,5 @@
 {% extends "layout_new.html" %}
+{% import "macros.html" as macro %}
 {% block content_main %}
     <div class="content-section">
         <form method="POST" action="">
@@ -13,15 +14,10 @@
                 </div>
                 {% endif %}
                 {% for opt in form.uac_options %}
-                    <div class="form-check">
-                        {{ opt(class="form-check-input") }}
-                        {{ opt.label(class="form-check-label") }}
-                    </div>
+                    {{ macro.std_input_check(opt) }}
                 {% endfor %}
             </fieldset>
-            <div class="form-group">
-                {{ form.submit(class="btn btn-outline-info") }}
-            </div>
+            {{ macro.std_submit(form.submit) }}
         </form>
     </div>
 {% endblock content_main %}
