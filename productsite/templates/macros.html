@@ -1,0 +1,28 @@
+{% macro std_form_input(element) -%}
+<div class="form-group">
+    {{ element.label(class="form-control-label") }}
+    {% if element.errors %}
+    {{ element(class="form-control form-control is-invalid") }}
+    <div class="invalid-feedback">
+        {% for error in element.errors %}
+        <span>{{ error }}</span>
+        {% endfor %}
+    </div>
+    {% else %}
+    {{ element(class="form-control form-control") }}
+    {% endif %}
+</div>
+{%- endmacro %}
+
+{% macro std_form_check(element) -%}
+<div class="form-check">
+    {{ element(class="form-check-input") }}
+    {{ element.label(class="form-check-label") }}
+</div>
+{%- endmacro %}
+
+{% macro std_form_submit(element) -%}
+<div class="form-group">
+    {{ element(class="btn btn-outline-info") }}
+</div>
+{%- endmacro %}
